@@ -21,12 +21,7 @@
     --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--pitch);
-    color: var(--chalk);
-    font-family: var(--font-body);
-  }
+  body { margin: 0; background: var(--pitch); color: var(--chalk); font-family: var(--font-body); }
   .wrap { max-width: 780px; margin: 0 auto; padding: 24px 16px 60px; }
   .eyebrow {
     display: flex; align-items: center; gap: 8px;
@@ -34,10 +29,7 @@
     font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
     margin-bottom: 6px;
   }
-  h1 {
-    font-family: var(--font-display); letter-spacing: 0.02em;
-    font-size: 30px; margin: 0 0 4px;
-  }
+  h1 { font-family: var(--font-display); letter-spacing: 0.02em; font-size: 30px; margin: 0 0 4px; }
   .sub { color: var(--chalk-dim); font-size: 13px; margin: 0; }
   .config-warning {
     background: rgba(193,68,45,0.12); border: 1px solid rgba(193,68,45,0.4);
@@ -45,12 +37,41 @@
     font-size: 13px; margin: 16px 0; line-height: 1.5;
   }
   .config-warning code { font-family: var(--font-mono); color: var(--gold); }
-
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-  .card {
-    background: var(--surface); border: 1px solid rgba(244,241,232,0.06);
-    border-radius: 10px; padding: 14px;
+  .inline-note {
+    font-size: 12px; color: var(--chalk-dim); background: rgba(244,241,232,0.05);
+    border: 1px solid rgba(244,241,232,0.1); border-radius: 6px; padding: 8px 10px; margin-bottom: 12px;
   }
+  .inline-note code { font-family: var(--font-mono); color: var(--gold); }
+
+  .season-bar { display: flex; align-items: center; gap: 10px; margin: 18px 0 10px; flex-wrap: wrap; }
+  .season-select {
+    background: var(--surface2); color: var(--chalk); border: 1px solid rgba(244,241,232,0.14);
+    border-radius: 6px; padding: 8px 10px; font-size: 13px; font-family: var(--font-mono);
+  }
+  .season-badge {
+    font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 3px 8px; border-radius: 999px;
+  }
+  .season-badge.active { background: rgba(63,167,150,0.15); color: var(--teal); }
+  .season-badge.completed { background: rgba(244,241,232,0.08); color: var(--chalk-dim); }
+  .archived-note {
+    background: rgba(217,164,65,0.1); border: 1px solid rgba(217,164,65,0.35);
+    color: var(--chalk); padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 18px;
+  }
+  .season-complete-banner {
+    background: rgba(217,164,65,0.14); border: 1px solid rgba(217,164,65,0.5);
+    padding: 14px; border-radius: 10px; margin: 16px 0; display: flex;
+    align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .season-complete-banner .msg { font-size: 13px; line-height: 1.4; }
+  .season-complete-banner .msg strong { color: var(--gold); }
+
+  .refresh-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .refresh-row .last-sync { font-size: 11px; color: var(--chalk-dim); font-family: var(--font-mono); }
+  .btn-refresh { background: var(--surface2); color: var(--chalk); font-size: 12px; padding: 7px 12px; }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+  .card { background: var(--surface); border: 1px solid rgba(244,241,232,0.06); border-radius: 10px; padding: 14px; }
   .card-label {
     display: flex; align-items: center; gap: 6px; margin-bottom: 6px;
     font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em;
@@ -59,33 +80,25 @@
   .card-value { font-family: var(--font-display); font-size: 18px; }
   .card-sub { font-size: 12px; color: var(--chalk-dim); font-variant-numeric: tabular-nums; }
 
-  .section {
-    background: var(--surface); border: 1px solid rgba(244,241,232,0.06);
-    border-radius: 10px; padding: 18px; margin-bottom: 20px;
-  }
-  .section h2 {
-    font-family: var(--font-display); text-transform: uppercase;
-    letter-spacing: 0.05em; font-size: 14px; margin: 0 0 2px;
-  }
+  .section { background: var(--surface); border: 1px solid rgba(244,241,232,0.06); border-radius: 10px; padding: 18px; margin-bottom: 20px; }
+  .section h2 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.05em; font-size: 14px; margin: 0 0 2px; }
   .section .section-sub { font-size: 12px; color: var(--chalk-dim); margin: 0 0 14px; }
+  .section-head-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
 
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: center; font-family: var(--font-mono); font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.05em; color: var(--chalk-dim);
-    padding: 8px 4px; }
+  th { text-align: center; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--chalk-dim); padding: 8px 4px; }
   th.left, td.left { text-align: left; }
   th.right, td.right { text-align: right; }
-  td { padding: 10px 4px; text-align: center; font-variant-numeric: tabular-nums;
-    border-top: 1px solid rgba(244,241,232,0.08); }
-  tr.leader td { border-left: 3px solid var(--gold); }
-  tr td:first-child { border-left: 3px solid transparent; }
+  td { padding: 10px 4px; text-align: center; font-variant-numeric: tabular-nums; border-top: 1px solid rgba(244,241,232,0.08); }
   tr.leader td:first-child { border-left: 3px solid var(--gold); }
+  tr td:first-child { border-left: 3px solid transparent; }
   .name-cell { font-weight: 500; }
   .pts-cell { font-family: var(--font-mono); font-weight: 700; }
   .w { color: var(--teal); } .l { color: var(--red); } .d { color: var(--chalk-dim); }
+  .winrate-cell { font-family: var(--font-mono); }
 
   .table-scroll { overflow-x: auto; margin: 0 -4px; }
-  table.min520 { min-width: 560px; }
+  table.min480 { min-width: 480px; }
   table.min420 { min-width: 420px; }
 
   .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
@@ -98,38 +111,34 @@
 
   .form-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
   select, input[type=number], input[type=text] {
-    background: var(--surface2); color: var(--chalk);
-    border: 1px solid rgba(244,241,232,0.14); border-radius: 6px;
-    padding: 9px 8px; font-size: 14px; font-family: var(--font-body);
+    background: var(--surface2); color: var(--chalk); border: 1px solid rgba(244,241,232,0.14);
+    border-radius: 6px; padding: 9px 8px; font-size: 14px; font-family: var(--font-body);
   }
   select { flex: 1; min-width: 100px; }
   input[type=number] { width: 56px; text-align: center; font-variant-numeric: tabular-nums; }
   .score-dash { color: var(--chalk-dim); font-family: var(--font-mono); }
   select:focus, input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
 
-  button {
-    font-family: var(--font-body); font-size: 13px; font-weight: 600;
-    border: none; border-radius: 6px; padding: 10px 16px; cursor: pointer;
-  }
+  button { font-family: var(--font-body); font-size: 13px; font-weight: 600; border: none; border-radius: 6px; padding: 10px 16px; cursor: pointer; }
   button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .btn-primary { background: var(--gold); color: var(--pitch); }
   .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-ghost { background: transparent; color: var(--chalk-dim); text-decoration: underline; padding: 6px 0; }
-  .btn-icon { background: transparent; color: var(--chalk-dim); padding: 4px; }
-  .btn-icon:hover { color: var(--red); }
+  .btn-ghost { background: transparent; color: var(--chalk-dim); text-decoration: underline; padding: 6px 0; font-weight: 500; }
+  .btn-icon {
+    background: var(--surface2); color: var(--chalk-dim); padding: 6px 9px; font-size: 12px;
+  }
+  .btn-icon:hover { color: var(--chalk); }
+  .btn-icon.danger:hover { color: var(--red); }
 
   .error-text { color: var(--red); font-size: 12px; margin: 0 0 10px; }
   .saving-text { color: var(--chalk-dim); font-size: 12px; }
 
-  .log-item {
-    display: flex; justify-content: space-between; align-items: center;
-    background: var(--surface2); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;
-  }
+  .log-item { display: flex; justify-content: space-between; align-items: center; background: var(--surface2); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
   .log-item:last-child { margin-bottom: 0; }
   .log-match { display: flex; align-items: baseline; gap: 8px; font-size: 13px; flex-wrap: wrap; }
   .log-score { font-family: var(--font-mono); color: var(--chalk-dim); }
   .log-date { font-size: 11px; color: var(--chalk-dim); font-family: var(--font-mono); margin-top: 2px; }
-  .log-right { display: flex; align-items: center; gap: 10px; }
+  .log-filter { min-width: 140px; flex: 0 0 auto; }
 
   .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
   .form-dots { display: flex; gap: 4px; justify-content: center; }
@@ -139,22 +148,47 @@
   .h2h-win { color: var(--teal); }
   .h2h-dim { color: var(--chalk-dim); }
   .h2h-diag { color: rgba(244,241,232,0.2); }
+  .h2h-cell-wins { font-weight: 600; }
+  .h2h-cell-draws { font-size: 10px; color: var(--gold); font-family: var(--font-mono); margin-top: 1px; }
 
-  .refresh-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  .refresh-row .last-sync { font-size: 11px; color: var(--chalk-dim); font-family: var(--font-mono); }
-  .btn-refresh { background: var(--surface2); color: var(--chalk); font-size: 12px; padding: 7px 12px; }
+  .player-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 0; border-top: 1px solid rgba(244,241,232,0.08); }
+  .player-row:first-child { border-top: none; }
+  .player-row-name { font-size: 13px; font-weight: 500; }
+  .player-row-actions { display: flex; gap: 6px; }
+
+  .perf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .perf-card { background: var(--surface2); border-radius: 10px; padding: 12px; }
+  .perf-name { font-family: var(--font-display); font-size: 15px; margin-bottom: 6px; }
+  .perf-winrate { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--gold); line-height: 1; }
+  .perf-winrate-label { font-size: 10px; color: var(--chalk-dim); text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-mono); margin-bottom: 8px; }
+  .perf-line { font-size: 12px; color: var(--chalk-dim); margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .perf-form { display: flex; gap: 4px; margin-top: 8px; }
+  .perf-chip {
+    width: 20px; height: 20px; border-radius: 4px; font-size: 10px; font-family: var(--font-mono);
+    display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--pitch);
+  }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="eyebrow">&#9873; Matchday Dashboard — Season 1</div>
+    <div class="eyebrow">&#9873; Matchday Dashboard</div>
     <h1>FIFA Ranking Power League</h1>
     <p class="sub" id="subhead">Loading…</p>
 
-    <div id="configWarning" class="config-warning" style="display:none;">
-      This dashboard isn't connected to your Google Sheet yet. Open <code>index.html</code>,
-      find <code>const API_URL = "..."</code> near the top of the script, and paste in your
-      Apps Script Web App URL. See <code>SETUP.md</code> for the full walkthrough.
+    <div id="configWarning" class="config-warning" style="display:none;"></div>
+
+    <div class="season-bar">
+      <select class="season-select" id="seasonSelect"></select>
+      <span class="season-badge" id="seasonBadge"></span>
+    </div>
+
+    <div id="archivedNote" class="archived-note" style="display:none;">
+      Viewing an archived season — read only. Switch to the active season to record matches.
+    </div>
+
+    <div id="seasonCompleteBanner" class="season-complete-banner" style="display:none;">
+      <div class="msg"><strong>Every player has reached the games target.</strong><br>Archive this season and start a new one whenever you're ready.</div>
+      <button class="btn-primary" id="startNewSeasonBtn">Start new season</button>
     </div>
 
     <div class="refresh-row">
@@ -165,6 +199,12 @@
     <div class="stat-grid" id="statGrid"></div>
 
     <div class="section">
+      <h2>Performance</h2>
+      <p class="section-sub">Win rate, goals, and recent results at a glance</p>
+      <div class="perf-grid" id="perfGrid"></div>
+    </div>
+
+    <div class="section">
       <h2>Season progress</h2>
       <p class="section-sub">Target: <span id="targetLabel">27</span> games per player</p>
       <div id="progressList"></div>
@@ -173,11 +213,11 @@
     <div class="section">
       <h2>Standings</h2>
       <div class="table-scroll">
-        <table class="min520" id="standingsTable">
+        <table class="min480" id="standingsTable">
           <thead>
             <tr>
               <th class="left">#</th><th class="left">Player</th>
-              <th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Form</th>
+              <th>P</th><th>W</th><th>D</th><th>L</th><th>Win%</th>
               <th class="right">Pts</th>
             </tr>
           </thead>
@@ -186,7 +226,7 @@
       </div>
     </div>
 
-    <div class="section">
+    <div class="section" id="recordSection">
       <h2>Record a match</h2>
       <p class="section-sub">Writes straight to your Google Sheet.</p>
       <div class="form-row">
@@ -205,15 +245,30 @@
 
     <div class="section">
       <h2>Head to head</h2>
-      <p class="section-sub">Wins, row over column</p>
+      <p class="section-sub">Wins over the column player; gold number is draws between them</p>
       <div class="table-scroll">
         <table class="min420" id="h2hTable"></table>
       </div>
     </div>
 
     <div class="section">
-      <h2>Score history</h2>
-      <p class="section-sub">Every match, most recent first</p>
+      <h2>Players</h2>
+      <p class="section-sub" id="managePlayersSub">Rename, add, or remove players from the active roster.</p>
+      <div id="playersManageWarning" class="inline-note" style="display:none;"></div>
+      <div id="playersList"></div>
+      <div class="form-row" id="addPlayerRow">
+        <input type="text" id="newPlayerName" placeholder="New player name" />
+        <button class="btn-primary" id="addPlayerBtn">+ Add player</button>
+      </div>
+      <p class="error-text" id="playerError" style="display:none;"></p>
+    </div>
+
+    <div class="section">
+      <div class="section-head-row">
+        <h2>Score history</h2>
+        <select class="log-filter" id="logFilterSelect"></select>
+      </div>
+      <p class="section-sub">Most recent first</p>
       <div id="logList"></div>
     </div>
   </div>
@@ -222,15 +277,20 @@
 /* ============================================================
    1. PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
    ============================================================ */
-const API_URL = "https://script.google.com/macros/s/AKfycbwvONSKB_UFtyMJ-B5ip2fM1GxGKWB2w6KDE08tBqUio8REFwsymiqZ-ZtTySwvGl7N/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxVm6zHXVqrmLHoSL_Z3bB-oCv1k21BlU754C9iOFA4U717C6sgG7m7O2w5tFg2QOI/exec";
 
 const SEASON_TARGET = 27;
-const REFRESH_MS = 15000; // poll every 15s for "live" updates
+const REFRESH_MS = 15000;
 const DEFAULT_PLAYERS = ["Basanta", "Nabin", "Prabin", "Suyog"];
 
-let matches = [];
-let players = [...DEFAULT_PLAYERS];
-let pollTimer = null;
+let allMatches = [];
+let seasons = [];
+let playersRoster = [];         // [{name, active}] — only populated if Players tab exists
+let playersTabAvailable = false;
+let selectedSeason = null;
+let activeSeasonName = null;
+let allPlayersEver = [...DEFAULT_PLAYERS];
+let logFilterPlayer = "all";
 
 document.getElementById("targetLabel").textContent = SEASON_TARGET;
 
@@ -238,10 +298,17 @@ function apiConfigured() {
   return API_URL && API_URL.indexOf("PASTE_YOUR") === -1;
 }
 
-async function fetchMatches() {
+function showConfigWarning(msg) {
+  const el = document.getElementById("configWarning");
+  el.innerHTML = msg;
+  el.style.display = "block";
+}
+
+async function fetchData() {
   if (!apiConfigured()) {
-    document.getElementById("configWarning").style.display = "block";
-    document.getElementById("subhead").textContent = players.length + " players · not connected";
+    showConfigWarning(`This dashboard isn't connected to your Google Sheet yet. Open <code>index.html</code>,
+      find <code>const API_URL = "..."</code> near the top of the script, and paste in your
+      Apps Script Web App URL. See <code>SETUP.md</code> for the full walkthrough.`);
     render();
     return;
   }
@@ -249,11 +316,30 @@ async function fetchMatches() {
     const res = await fetch(API_URL, { method: "GET" });
     const data = await res.json();
     if (data.ok) {
-      matches = data.matches || [];
-      const namesInData = new Set();
-      matches.forEach(m => { namesInData.add(m.playerA); namesInData.add(m.playerB); });
-      DEFAULT_PLAYERS.forEach(p => namesInData.add(p));
-      players = Array.from(namesInData);
+      allMatches = data.matches || [];
+      seasons = data.seasons || [];
+      playersRoster = data.players || [];
+      playersTabAvailable = !!data.playersTabAvailable;
+
+      if (seasons.length === 0) {
+        showConfigWarning(`No seasons found in your <code>Seasons</code> tab. Add a header row
+          (<code>Name | Status | StartedAt | EndedAt</code>) and one data row like
+          <code>Season 1 | active | (today) | </code>. See <code>SETUP.md</code>.`);
+      } else {
+        document.getElementById("configWarning").style.display = "none";
+      }
+
+      const active = seasons.find(s => s.status === "active");
+      activeSeasonName = active ? active.name : (seasons[0] ? seasons[0].name : "Season 1");
+      if (!selectedSeason || !seasons.find(s => s.name === selectedSeason)) {
+        selectedSeason = activeSeasonName;
+      }
+
+      const namesInData = new Set(DEFAULT_PLAYERS);
+      allMatches.forEach(m => { namesInData.add(m.playerA); namesInData.add(m.playerB); });
+      playersRoster.forEach(p => namesInData.add(p.name));
+      allPlayersEver = Array.from(namesInData);
+
       document.getElementById("lastSync").textContent = "Synced " + new Date().toLocaleTimeString();
     }
   } catch (e) {
@@ -262,21 +348,73 @@ async function fetchMatches() {
   render();
 }
 
+async function postAction(payload) {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids CORS preflight on Apps Script
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+}
+
 async function addMatch(playerA, playerB, scoreA, scoreB) {
   const savingText = document.getElementById("savingText");
   savingText.textContent = "Saving…";
   try {
-    await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids CORS preflight on Apps Script
-      body: JSON.stringify({ playerA, playerB, scoreA, scoreB }),
-    });
+    await postAction({ action: "addMatch", season: activeSeasonName, playerA, playerB, scoreA, scoreB });
     savingText.textContent = "Saved";
     setTimeout(() => { savingText.textContent = ""; }, 1500);
-    await fetchMatches();
+    await fetchData();
   } catch (e) {
     savingText.textContent = "";
     showError("Couldn't save to the sheet. Check your connection and try again.");
+  }
+}
+
+async function startNewSeason() {
+  const btn = document.getElementById("startNewSeasonBtn");
+  btn.disabled = true;
+  btn.textContent = "Starting…";
+  try {
+    const data = await postAction({ action: "newSeason" });
+    if (data.ok) selectedSeason = data.season;
+    await fetchData();
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = "Start new season";
+  }
+}
+
+async function addPlayerApi(name) {
+  showPlayerError("");
+  try {
+    const data = await postAction({ action: "addPlayer", name });
+    if (!data.ok) { showPlayerError(data.error || "Couldn't add player."); return; }
+    await fetchData();
+  } catch (e) {
+    showPlayerError("Couldn't reach the sheet.");
+  }
+}
+
+async function removePlayerApi(name) {
+  showPlayerError("");
+  try {
+    const data = await postAction({ action: "removePlayer", name });
+    if (!data.ok) { showPlayerError(data.error || "Couldn't remove player."); return; }
+    await fetchData();
+  } catch (e) {
+    showPlayerError("Couldn't reach the sheet.");
+  }
+}
+
+async function renamePlayerApi(oldName, newName) {
+  showPlayerError("");
+  try {
+    const data = await postAction({ action: "renamePlayer", oldName, newName });
+    if (!data.ok) { showPlayerError(data.error || "Couldn't rename player."); return; }
+    await fetchData();
+  } catch (e) {
+    showPlayerError("Couldn't reach the sheet.");
   }
 }
 
@@ -285,10 +423,33 @@ function showError(msg) {
   el.textContent = msg;
   el.style.display = msg ? "block" : "none";
 }
+function showPlayerError(msg) {
+  const el = document.getElementById("playerError");
+  el.textContent = msg;
+  el.style.display = msg ? "block" : "none";
+}
 
-function computeStandings() {
+function matchesForSeason(seasonName) {
+  return allMatches.filter(m => m.season === seasonName);
+}
+
+function playersForSeason(matches) {
+  const set = new Set();
+  matches.forEach(m => { set.add(m.playerA); set.add(m.playerB); });
+  if (set.size === 0) DEFAULT_PLAYERS.forEach(p => set.add(p));
+  return Array.from(set);
+}
+
+function getActiveRosterNames() {
+  if (playersTabAvailable && playersRoster.length > 0) {
+    return playersRoster.filter(p => p.active).map(p => p.name);
+  }
+  return allPlayersEver;
+}
+
+function computeStandings(matches, playerList) {
   const table = {};
-  players.forEach(p => { table[p] = { name: p, played: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, points: 0, form: [] }; });
+  playerList.forEach(p => { table[p] = { name: p, played: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, points: 0, form: [] }; });
   matches.forEach(m => {
     if (!table[m.playerA] || !table[m.playerB]) return;
     const A = table[m.playerA], B = table[m.playerB];
@@ -307,15 +468,19 @@ function computeStandings() {
   });
 }
 
-function computeH2H() {
-  const grid = {};
-  players.forEach(p => { grid[p] = {}; players.forEach(q => grid[p][q] = 0); });
-  matches.forEach(m => {
-    if (!grid[m.playerA] || !grid[m.playerB]) return;
-    if (m.scoreA > m.scoreB) grid[m.playerA][m.playerB]++;
-    else if (m.scoreB > m.scoreA) grid[m.playerB][m.playerA]++;
+function computeH2H(matches, playerList) {
+  const wins = {}, draws = {};
+  playerList.forEach(p => {
+    wins[p] = {}; draws[p] = {};
+    playerList.forEach(q => { wins[p][q] = 0; draws[p][q] = 0; });
   });
-  return grid;
+  matches.forEach(m => {
+    if (!wins[m.playerA] || !wins[m.playerB]) return;
+    if (m.scoreA > m.scoreB) wins[m.playerA][m.playerB]++;
+    else if (m.scoreB > m.scoreA) wins[m.playerB][m.playerA]++;
+    else { draws[m.playerA][m.playerB]++; draws[m.playerB][m.playerA]++; }
+  });
+  return { wins, draws };
 }
 
 function fmtDate(iso) {
@@ -326,32 +491,84 @@ function fmtDate(iso) {
 }
 
 function render() {
-  const standings = computeStandings();
-  const h2h = computeH2H();
+  const isActiveSeason = selectedSeason === activeSeasonName;
+  const seasonMatches = selectedSeason ? matchesForSeason(selectedSeason) : [];
+  const seasonPlayers = playersForSeason(seasonMatches);
+  const standings = computeStandings(seasonMatches, seasonPlayers);
+  const h2h = computeH2H(seasonMatches, seasonPlayers);
 
   document.getElementById("subhead").textContent =
-    players.length + " players · " + matches.length + " matches played this season";
+    (selectedSeason || "No season") + " · " + seasonPlayers.length + " players · " + seasonMatches.length + " matches";
+
+  // Season selector
+  const seasonSelect = document.getElementById("seasonSelect");
+  const sortedSeasons = [...seasons].sort((a, b) => {
+    if (a.status === "active") return -1;
+    if (b.status === "active") return 1;
+    return new Date(b.startedAt) - new Date(a.startedAt);
+  });
+  seasonSelect.innerHTML = sortedSeasons.map(s =>
+    `<option value="${s.name}" ${s.name === selectedSeason ? "selected" : ""}>${s.name}${s.status === "active" ? " (active)" : ""}</option>`
+  ).join("");
+
+  const currentSeasonObj = seasons.find(s => s.name === selectedSeason);
+  const badge = document.getElementById("seasonBadge");
+  if (currentSeasonObj) {
+    badge.textContent = currentSeasonObj.status;
+    badge.className = "season-badge " + currentSeasonObj.status;
+    badge.style.display = "inline-block";
+  } else {
+    badge.style.display = "none";
+  }
+
+  document.getElementById("archivedNote").style.display = isActiveSeason ? "none" : "block";
+  document.getElementById("recordSection").style.display = isActiveSeason ? "block" : "none";
+
+  const allReachedTarget = seasonPlayers.length > 0 && standings.every(s => s.played >= SEASON_TARGET);
+  document.getElementById("seasonCompleteBanner").style.display = (isActiveSeason && allReachedTarget) ? "flex" : "none";
 
   // Stat cards
   const statGrid = document.getElementById("statGrid");
-  if (matches.length === 0) {
+  if (seasonMatches.length === 0) {
     statGrid.innerHTML = "";
   } else {
     const leader = standings[0];
     const topScorer = [...standings].sort((a, b) => b.gf - a.gf)[0];
-    const bestForm = [...standings].filter(s => s.played > 0)
-      .sort((a, b) => (b.points / b.played) - (a.points / a.played))[0];
+    const bestWinRate = [...standings].filter(s => s.played > 0)
+      .sort((a, b) => (b.wins / b.played) - (a.wins / a.played))[0];
     statGrid.innerHTML = `
       <div class="card"><div class="card-label">&#127942; Top of table</div>
         <div class="card-value">${leader.name}</div><div class="card-sub">${leader.points} pts</div></div>
-      <div class="card"><div class="card-label">&#128293; Best form</div>
-        <div class="card-value">${bestForm ? bestForm.name : "—"}</div>
-        <div class="card-sub">${bestForm ? (bestForm.points / bestForm.played).toFixed(1) : "0"} pts/match</div></div>
+      <div class="card"><div class="card-label">&#128293; Best win rate</div>
+        <div class="card-value">${bestWinRate ? bestWinRate.name : "—"}</div>
+        <div class="card-sub">${bestWinRate ? Math.round((bestWinRate.wins / bestWinRate.played) * 100) : 0}%</div></div>
       <div class="card"><div class="card-label">&#9917; Top scorer</div>
         <div class="card-value">${topScorer.name}</div><div class="card-sub">${topScorer.gf} goals</div></div>
       <div class="card"><div class="card-label">&#128197; Matches</div>
-        <div class="card-value">${matches.length}</div><div class="card-sub">all-time</div></div>
+        <div class="card-value">${seasonMatches.length}</div><div class="card-sub">this season</div></div>
     `;
+  }
+
+  // Performance widget
+  const perfGrid = document.getElementById("perfGrid");
+  if (standings.length === 0) {
+    perfGrid.innerHTML = `<p class="empty-text">No matches yet this season.</p>`;
+  } else {
+    perfGrid.innerHTML = standings.map(s => {
+      const winPct = s.played > 0 ? Math.round((s.wins / s.played) * 100) : 0;
+      const chips = s.form.slice(-5).map(f =>
+        `<span class="perf-chip" style="background:${f === "W" ? "var(--teal)" : f === "L" ? "var(--red)" : "var(--gold)"}">${f}</span>`
+      ).join("");
+      return `
+        <div class="perf-card">
+          <div class="perf-name">${s.name}</div>
+          <div class="perf-winrate-label">Win rate</div>
+          <div class="perf-winrate">${winPct}%</div>
+          <div class="perf-line">${s.wins}W · ${s.draws}D · ${s.losses}L</div>
+          <div class="perf-line">${s.gf} scored · ${s.ga} conceded</div>
+          <div class="perf-form">${chips || ""}</div>
+        </div>`;
+    }).join("");
   }
 
   // Season progress
@@ -365,15 +582,12 @@ function render() {
         <div class="progress-track"><div class="progress-fill${done ? " done" : ""}" style="width:${pct}%"></div></div>
         <div class="progress-count">${s.played} / ${SEASON_TARGET}</div>
       </div>`;
-  }).join("");
+  }).join("") || `<p class="empty-text">No matches yet this season.</p>`;
 
   // Standings table
   const tbody = document.getElementById("standingsBody");
   tbody.innerHTML = standings.map((s, i) => {
-    const gd = s.gf - s.ga;
-    const dots = s.form.slice(-5).map(f =>
-      `<span class="dot" style="background:${f === "W" ? "var(--teal)" : f === "L" ? "var(--red)" : "var(--gold)"}" title="${f}"></span>`
-    ).join("");
+    const winPct = s.played > 0 ? Math.round((s.wins / s.played) * 100) : 0;
     return `
       <tr class="${i === 0 && s.played > 0 ? "leader" : ""}">
         <td class="left">${i + 1}</td>
@@ -382,44 +596,109 @@ function render() {
         <td class="w">${s.wins}</td>
         <td class="d">${s.draws}</td>
         <td class="l">${s.losses}</td>
-        <td>${gd > 0 ? "+" + gd : gd}</td>
-        <td><div class="form-dots">${dots || '<span class="d">—</span>'}</div></td>
+        <td class="winrate-cell">${winPct}%</td>
         <td class="right pts-cell">${s.points}</td>
       </tr>`;
   }).join("");
 
-  // Player selects
+  // Player selects for recording a match — active roster only
+  const activeRoster = getActiveRosterNames();
   ["selA", "selB"].forEach((id, idx) => {
     const sel = document.getElementById(id);
     const prevVal = sel.value;
-    sel.innerHTML = players.map(p => `<option value="${p}">${p}</option>`).join("");
-    if (players.includes(prevVal)) sel.value = prevVal;
-    else sel.selectedIndex = Math.min(idx, players.length - 1);
+    sel.innerHTML = activeRoster.map(p => `<option value="${p}">${p}</option>`).join("");
+    if (activeRoster.includes(prevVal)) sel.value = prevVal;
+    else sel.selectedIndex = Math.min(idx, activeRoster.length - 1);
   });
 
-  // Head to head
+  // Head to head (wins + draws)
   const h2hTable = document.getElementById("h2hTable");
-  let h2hHtml = "<thead><tr><th></th>" +
-    players.map(p => `<th>${p.slice(0, 2).toUpperCase()}</th>`).join("") + "</tr></thead><tbody>";
-  players.forEach(row => {
-    h2hHtml += `<tr><td class="left h2h-name">${row}</td>`;
-    players.forEach(col => {
-      if (row === col) { h2hHtml += `<td class="h2h-diag">—</td>`; return; }
-      const wins = h2h[row][col];
-      const opWins = h2h[col][row];
-      h2hHtml += `<td class="${wins > opWins ? "h2h-win" : "h2h-dim"}">${wins}</td>`;
-    });
-    h2hHtml += "</tr>";
-  });
-  h2hHtml += "</tbody>";
-  h2hTable.innerHTML = h2hHtml;
-
-  // Score history log
-  const logList = document.getElementById("logList");
-  if (matches.length === 0) {
-    logList.innerHTML = `<p class="empty-text">No matches recorded yet — add the first one above.</p>`;
+  if (seasonPlayers.length === 0) {
+    h2hTable.innerHTML = "";
   } else {
-    const sorted = [...matches].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    let h2hHtml = "<thead><tr><th></th>" +
+      seasonPlayers.map(p => `<th>${p.slice(0, 2).toUpperCase()}</th>`).join("") + "</tr></thead><tbody>";
+    seasonPlayers.forEach(row => {
+      h2hHtml += `<tr><td class="left h2h-name">${row}</td>`;
+      seasonPlayers.forEach(col => {
+        if (row === col) { h2hHtml += `<td class="h2h-diag">—</td>`; return; }
+        const w = h2h.wins[row][col];
+        const opW = h2h.wins[col][row];
+        const dCount = h2h.draws[row][col];
+        h2hHtml += `<td>
+          <div class="h2h-cell-wins ${w > opW ? 'h2h-win' : 'h2h-dim'}">${w}</div>
+          ${dCount > 0 ? `<div class="h2h-cell-draws">${dCount}D</div>` : ''}
+        </td>`;
+      });
+      h2hHtml += "</tr>";
+    });
+    h2hHtml += "</tbody>";
+    h2hTable.innerHTML = h2hHtml;
+  }
+
+  // Manage players
+  const managePlayersSub = document.getElementById("managePlayersSub");
+  const playersManageWarning = document.getElementById("playersManageWarning");
+  const addPlayerRow = document.getElementById("addPlayerRow");
+  const playersList = document.getElementById("playersList");
+
+  if (!playersTabAvailable || playersRoster.length === 0) {
+    playersManageWarning.style.display = "block";
+    playersManageWarning.innerHTML = `Add a <code>Players</code> tab to your Sheet to enable renaming, adding,
+      and removing players from here. Until then this list is read-only, built from match history. See <code>SETUP.md</code>.`;
+    addPlayerRow.style.display = "none";
+    playersList.innerHTML = allPlayersEver.map(name => `
+      <div class="player-row"><div class="player-row-name">${name}</div></div>
+    `).join("");
+  } else {
+    playersManageWarning.style.display = "none";
+    addPlayerRow.style.display = "flex";
+    const activePlayers = playersRoster.filter(p => p.active);
+    playersList.innerHTML = activePlayers.map(p => `
+      <div class="player-row">
+        <div class="player-row-name">${p.name}</div>
+        <div class="player-row-actions">
+          <button class="btn-icon" data-rename="${p.name}">Rename</button>
+          <button class="btn-icon danger" data-remove="${p.name}">Remove</button>
+        </div>
+      </div>
+    `).join("") || `<p class="empty-text">No active players yet — add one below.</p>`;
+
+    playersList.querySelectorAll("[data-rename]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const oldName = btn.getAttribute("data-rename");
+        const newName = prompt("Rename \"" + oldName + "\" to:", oldName);
+        if (!newName || !newName.trim() || newName.trim() === oldName) return;
+        renamePlayerApi(oldName, newName.trim());
+      });
+    });
+    playersList.querySelectorAll("[data-remove]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const name = btn.getAttribute("data-remove");
+        if (confirm("Remove \"" + name + "\" from the active roster? Past matches stay in the history.")) {
+          removePlayerApi(name);
+        }
+      });
+    });
+  }
+
+  // Score history filter + log
+  const logFilterSelect = document.getElementById("logFilterSelect");
+  const filterOptions = ["all", ...seasonPlayers];
+  if (!filterOptions.includes(logFilterPlayer)) logFilterPlayer = "all";
+  logFilterSelect.innerHTML = filterOptions.map(p =>
+    `<option value="${p}" ${p === logFilterPlayer ? "selected" : ""}>${p === "all" ? "All players" : p}</option>`
+  ).join("");
+
+  const logList = document.getElementById("logList");
+  const filteredMatches = logFilterPlayer === "all"
+    ? seasonMatches
+    : seasonMatches.filter(m => m.playerA === logFilterPlayer || m.playerB === logFilterPlayer);
+
+  if (filteredMatches.length === 0) {
+    logList.innerHTML = `<p class="empty-text">No matches to show.</p>`;
+  } else {
+    const sorted = [...filteredMatches].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     logList.innerHTML = sorted.map(m => `
       <div class="log-item">
         <div>
@@ -444,6 +723,7 @@ document.getElementById("addMatchBtn").addEventListener("click", () => {
   const scoreB = document.getElementById("scoreB").value;
 
   if (!apiConfigured()) { showError("Connect your Google Sheet first — see the notice above."); return; }
+  if (!activeSeasonName) { showError("No active season found."); return; }
   if (!playerA || !playerB || playerA === playerB) { showError("Pick two different players."); return; }
   if (scoreA === "" || scoreB === "") { showError("Enter both scores."); return; }
   const sa = parseInt(scoreA, 10), sb = parseInt(scoreB, 10);
@@ -454,12 +734,38 @@ document.getElementById("addMatchBtn").addEventListener("click", () => {
   document.getElementById("scoreB").value = "";
 });
 
-document.getElementById("refreshBtn").addEventListener("click", fetchMatches);
+document.getElementById("seasonSelect").addEventListener("change", (e) => {
+  selectedSeason = e.target.value;
+  logFilterPlayer = "all";
+  render();
+});
+
+document.getElementById("logFilterSelect").addEventListener("change", (e) => {
+  logFilterPlayer = e.target.value;
+  render();
+});
+
+document.getElementById("startNewSeasonBtn").addEventListener("click", () => {
+  if (confirm("Archive \"" + activeSeasonName + "\" and start a new season? This can't be undone from the dashboard.")) {
+    startNewSeason();
+  }
+});
+
+document.getElementById("addPlayerBtn").addEventListener("click", () => {
+  const input = document.getElementById("newPlayerName");
+  const name = input.value.trim();
+  if (!name) { showPlayerError("Enter a name first."); return; }
+  if (!playersTabAvailable) { showPlayerError("Add a Players tab to your Sheet first — see the notice above."); return; }
+  addPlayerApi(name);
+  input.value = "";
+});
+
+document.getElementById("refreshBtn").addEventListener("click", fetchData);
 
 // Init
 render();
-fetchMatches();
-pollTimer = setInterval(fetchMatches, REFRESH_MS);
+fetchData();
+setInterval(fetchData, REFRESH_MS);
 </script>
 </body>
 </html>
