@@ -21,6 +21,8 @@
       <span class="season-badge" id="seasonBadge"></span>
     </div>
 
+    <p class="sub"><a class="btn-ghost" href="admin.html">&#9881; Admin settings</a></p>
+
     <div id="archivedNote" class="archived-note" style="display:none;">
       Viewing an archived season — read only. Switch to the active season to record matches.
     </div>
@@ -50,34 +52,6 @@
       <div class="perf-grid" id="perfGrid"></div>
     </div>
 
-    <div class="section">
-      <h2>Season progress</h2>
-      <p class="section-sub">Target: <span id="targetLabel">27</span> games per player</p>
-      <div id="progressList"></div>
-    </div>
-
-    <div class="section">
-      <h2>Projected finish</h2>
-      <p class="section-sub">Estimated points if each player keeps their current pace to <span id="projTargetLabel">27</span> games</p>
-      <div id="projectionList"></div>
-    </div>
-
-    <div class="section">
-      <h2>Standings</h2>
-      <div class="table-scroll">
-        <table class="min480" id="standingsTable">
-          <thead>
-            <tr>
-              <th class="left">#</th><th class="left">Player</th>
-              <th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Win%</th>
-              <th class="right">Pts</th>
-            </tr>
-          </thead>
-          <tbody id="standingsBody"></tbody>
-        </table>
-      </div>
-    </div>
-
     <div class="section" id="recordSection">
       <h2>Record a match</h2>
       <p class="section-sub">Writes straight to your Google Sheet.</p>
@@ -96,11 +70,39 @@
     </div>
 
     <div class="section">
-      <h2>Head to head</h2>
-      <p class="section-sub">Wins over the column player; gold number is draws between them</p>
+      <h2>Standings</h2>
       <div class="table-scroll">
-        <table class="min420" id="h2hTable"></table>
+        <table class="min480" id="standingsTable">
+          <thead>
+            <tr>
+              <th class="left">#</th><th class="left">Player</th>
+              <th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Win%</th>
+              <th class="right">Pts</th>
+            </tr>
+          </thead>
+          <tbody id="standingsBody"></tbody>
+        </table>
       </div>
+    </div>
+
+
+
+    <div class="section">
+      <h2>Head to head</h2>
+      <p class="section-sub">Pick two players to see how they've matched up</p>
+      <div class="h2h-picker">
+        <select id="h2hSelA"></select>
+        <span class="h2h-vs">vs</span>
+        <select id="h2hSelB"></select>
+      </div>
+      <div id="h2hSummary"></div>
+      <button class="btn-icon" id="h2hToggleBtn" style="display:none;"></button>
+      <div id="h2hDetail" style="display:none;"></div>
+    </div>
+    <div class="section">
+      <h2>Projected finish</h2>
+      <p class="section-sub">Estimated points if each player keeps their current pace to <span id="projTargetLabel">27</span> games</p>
+      <div id="projectionList"></div>
     </div>
 
     <div class="section" style="display: none;">

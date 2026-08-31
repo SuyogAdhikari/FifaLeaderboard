@@ -62,30 +62,70 @@ export function computeStandings(matches, playerList) {
   });
 }
 
-/** Head-to-head win/draw counts between every pair of players. */
-export function computeH2H(matches, playerList) {
-  const wins = {};
-  const draws = {};
-  playerList.forEach((p) => {
-    wins[p] = {};
-    draws[p] = {};
-    playerList.forEach((q) => {
-      wins[p][q] = 0;
-      draws[p][q] = 0;
-    });
-  });
+/**
+ * Full match-by-match breakdown between exactly two players, from
+ * playerA's perspective, plus summary stats for that pairing. Assumes the
+ * two names are distinct; returns a zeroed summary (played: 0) if they
+ * haven't met yet.
+ */
+export function computeHeadToHeadDetail(matches, playerA, playerB) {
+  const meetings = matches
+    .filter(
+      (m) =>
+        (m.playerA === playerA && m.playerB === playerB) ||
+        (m.playerA === playerB && m.playerB === playerA)
+    )
+    .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
-  matches.forEach((m) => {
-    if (!wins[m.playerA] || !wins[m.playerB]) return;
-    if (m.scoreA > m.scoreB) wins[m.playerA][m.playerB]++;
-    else if (m.scoreB > m.scoreA) wins[m.playerB][m.playerA]++;
-    else {
-      draws[m.playerA][m.playerB]++;
-      draws[m.playerB][m.playerA]++;
+  const summary = { played: meetings.length, winsA: 0, winsB: 0, draws: 0, goalsA: 0, goalsB: 0 };
+
+  const detailedMatches = meetings.map((m) => {
+    const aIsFirst = m.playerA === playerA;
+    const scoreA = aIsFirst ? m.scoreA : m.scoreB;
+    const scoreB = aIsFirst ? m.scoreB : m.scoreA;
+
+    summary.goalsA += scoreA;
+    summary.goalsB += scoreB;
+
+    let result; // from playerA's perspective
+    if (scoreA > scoreB) {
+      summary.winsA++;
+      result = "W";
+    } else if (scoreB > scoreA) {
+      summary.winsB++;
+      result = "L";
+    } else {
+      summary.draws++;
+      result = "D";
     }
+
+    return { timestamp: m.timestamp, scoreA, scoreB, result };
   });
 
-  return { wins, draws };
+  // Current streak from playerA's perspective, walking back from the most recent meeting.
+  let streak = 0;
+  let streakResult = null;
+  for (let i = detailedMatches.length - 1; i >= 0; i--) {
+    const r = detailedMatches[i].result;
+    if (streakResult === null) {
+      streakResult = r;
+      streak = 1;
+    } else if (r === streakResult) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  return {
+    playerA,
+    playerB,
+    summary,
+    matches: detailedMatches.slice().reverse(), // most recent first, for display
+    avgGoalsA: summary.played > 0 ? summary.goalsA / summary.played : 0,
+    avgGoalsB: summary.played > 0 ? summary.goalsB / summary.played : 0,
+    streak: streak > 0 ? { result: streakResult, count: streak } : null,
+  };
 }
 
 /**
@@ -121,4 +161,9 @@ export function getActiveRosterNames(state) {
     return state.playersRoster.filter((p) => p.active).map((p) => p.name);
   }
   return state.allPlayersEver;
+}
+
+/** Resolves the games-per-player target for a season, falling back to a default when the season has none set. */
+export function resolveSeasonTarget(season, fallback) {
+  return season && typeof season.targetGames === "number" && season.targetGames > 0 ? season.targetGames : fallback;
 }

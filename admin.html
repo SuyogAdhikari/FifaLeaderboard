@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — FIFA Ranking Power League</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">&#9881; Admin</div>
+    <h1>League settings</h1>
+    <p class="sub"><a class="btn-ghost" href="index.html">&larr; Back to dashboard</a></p>
+
+    <div id="adminConfigWarning" class="config-warning" style="display:none;"></div>
+
+    <div class="section">
+      <h2>Current season</h2>
+      <p class="section-sub" id="adminSeasonSub">Loading…</p>
+      <div class="form-row">
+        <input type="number" id="targetGamesInput" min="1" placeholder="Games per player" />
+        <button class="btn-primary" id="saveTargetBtn">Save</button>
+        <span class="saving-text" id="targetSavingText"></span>
+      </div>
+      <p class="error-text" id="targetError" style="display:none;"></p>
+    </div>
+
+    <div class="section">
+      <h2>Start a new season</h2>
+      <p class="section-sub">Archives the current season and starts a fresh one.</p>
+      <div class="form-row">
+        <input type="text" id="newSeasonName" placeholder="Season name (optional)" />
+        <input type="number" id="newSeasonTarget" min="1" placeholder="Games per player" />
+        <button class="btn-primary" id="startNewSeasonBtn">Start new season</button>
+      </div>
+      <p class="error-text" id="newSeasonError" style="display:none;"></p>
+    </div>
+
+    <div class="section">
+      <h2>Players</h2>
+      <p class="section-sub" id="managePlayersSub">Rename, add, or remove players from the active roster.</p>
+      <div id="playersManageWarning" class="inline-note" style="display:none;"></div>
+      <div id="playersList"></div>
+      <div class="form-row" id="addPlayerRow">
+        <input type="text" id="newPlayerName" placeholder="New player name" />
+        <button class="btn-primary" id="addPlayerBtn">+ Add player</button>
+      </div>
+      <p class="error-text" id="playerError" style="display:none;"></p>
+    </div>
+  </div>
+
+  <script type="module" src="js/admin/app.js"></script>
+</body>
+</html>

@@ -74,44 +74,44 @@ export async function createNewSeason() {
 }
 
 export async function addPlayer(name) {
-  showPlayerError("");
+  showPlayerError(els, "");
   try {
     const data = await api.addPlayer(name);
     if (!data.ok) {
-      showPlayerError(data.error || "Couldn't add player.");
+      showPlayerError(els, data.error || "Couldn't add player.");
       return;
     }
     await fetchData();
   } catch (e) {
-    showPlayerError("Couldn't reach the sheet.");
+    showPlayerError(els, "Couldn't reach the sheet.");
   }
 }
 
 async function removePlayer(name) {
-  showPlayerError("");
+  showPlayerError(els, "");
   try {
     const data = await api.removePlayer(name);
     if (!data.ok) {
-      showPlayerError(data.error || "Couldn't remove player.");
+      showPlayerError(els, data.error || "Couldn't remove player.");
       return;
     }
     await fetchData();
   } catch (e) {
-    showPlayerError("Couldn't reach the sheet.");
+    showPlayerError(els, "Couldn't reach the sheet.");
   }
 }
 
 async function renamePlayer(oldName, newName) {
-  showPlayerError("");
+  showPlayerError(els, "");
   try {
     const data = await api.renamePlayer(oldName, newName);
     if (!data.ok) {
-      showPlayerError(data.error || "Couldn't rename player.");
+      showPlayerError(els, data.error || "Couldn't rename player.");
       return;
     }
     await fetchData();
   } catch (e) {
-    showPlayerError("Couldn't reach the sheet.");
+    showPlayerError(els, "Couldn't reach the sheet.");
   }
 }
 
@@ -123,6 +123,21 @@ export function selectSeason(seasonName) {
 
 export function selectLogFilter(playerName) {
   state.logFilterPlayer = playerName;
+  render();
+}
+
+export function selectH2HPlayerA(name) {
+  state.h2hPlayerA = name;
+  render();
+}
+
+export function selectH2HPlayerB(name) {
+  state.h2hPlayerB = name;
+  render();
+}
+
+export function toggleH2HExpanded() {
+  state.h2hExpanded = !state.h2hExpanded;
   render();
 }
 
