@@ -4,8 +4,9 @@ import {
   matchesForSeason,
   playersForSeason,
   computeStandings,
-  computeH2H,
+  computeHeadToHeadDetail,
   computeProjections,
+  resolveSeasonTarget,
   getActiveRosterNames,
 } from "../logic/standings.js";
 
@@ -13,7 +14,6 @@ import { renderSeasonBar } from "./seasonBar.js";
 import { renderStatCards } from "./statCards.js";
 import { renderPodium } from "./podium.js";
 import { renderPerformance } from "./performance.js";
-import { renderProgress } from "./progress.js";
 import { renderProjection } from "./projection.js";
 import { renderStandingsTable } from "./standingsTable.js";
 import { renderMatchFormSelects } from "./matchForm.js";
@@ -33,24 +33,31 @@ export function renderApp(state, playerHandlers) {
   const seasonMatches = state.selectedSeason ? matchesForSeason(state.allMatches, state.selectedSeason) : [];
   const seasonPlayers = playersForSeason(seasonMatches, DEFAULT_PLAYERS);
   const standings = computeStandings(seasonMatches, seasonPlayers);
-  const h2h = computeH2H(seasonMatches, seasonPlayers);
+
+  const selectedSeasonObj = state.seasons.find((s) => s.name === state.selectedSeason);
+  const seasonTarget = resolveSeasonTarget(selectedSeasonObj, SEASON_TARGET);
+
+  const h2hPlayerA = seasonPlayers.includes(state.h2hPlayerA) ? state.h2hPlayerA : seasonPlayers[0] || null;
+  const h2hPlayerB =
+    seasonPlayers.includes(state.h2hPlayerB) && state.h2hPlayerB !== h2hPlayerA
+      ? state.h2hPlayerB
+      : seasonPlayers.find((p) => p !== h2hPlayerA) || null;
+  const h2hDetail =
+    h2hPlayerA && h2hPlayerB ? computeHeadToHeadDetail(seasonMatches, h2hPlayerA, h2hPlayerB) : null;
 
   els.subhead.textContent =
     (state.selectedSeason || "No season") + " · " + seasonPlayers.length + " players · " + seasonMatches.length + " matches";
 
-  els.targetLabel.textContent = SEASON_TARGET;
-
-  const allReachedTarget = seasonPlayers.length > 0 && standings.every((s) => s.played >= SEASON_TARGET);
+  const allReachedTarget = seasonPlayers.length > 0 && standings.every((s) => s.played >= seasonTarget);
 
   renderSeasonBar(state, isActiveSeason, allReachedTarget);
   renderStatCards(seasonMatches, standings);
   renderPodium(standings);
-  renderPerformance(standings);
-  renderProgress(standings);
-  renderProjection(computeProjections(standings, SEASON_TARGET));
+  renderPerformance(standings, seasonTarget);
+  renderProjection(computeProjections(standings, seasonTarget), seasonTarget);
   renderStandingsTable(standings);
   renderMatchFormSelects(getActiveRosterNames(state));
-  renderHeadToHead(seasonPlayers, h2h);
-  renderPlayers(state, { onRename: playerHandlers.onRenamePlayer, onRemove: playerHandlers.onRemovePlayer });
+  renderHeadToHead(seasonPlayers, { playerA: h2hPlayerA, playerB: h2hPlayerB, expanded: state.h2hExpanded }, h2hDetail);
+  renderPlayers(state, els, { onRename: playerHandlers.onRenamePlayer, onRemove: playerHandlers.onRemovePlayer });
   renderMatchLog(state, seasonMatches, seasonPlayers);
 }

@@ -23,7 +23,9 @@ export async function postAction(payload) {
 export const addMatch = (season, playerA, playerB, scoreA, scoreB) =>
   postAction({ action: "addMatch", season, playerA, playerB, scoreA, scoreB });
 
-export const startNewSeason = () => postAction({ action: "newSeason" });
+export const startNewSeason = (name, targetGames) => postAction({ action: "newSeason", name, targetGames });
+
+export const updateSeasonTarget = (targetGames) => postAction({ action: "updateSeasonTarget", targetGames });
 
 export const addPlayer = (name) => postAction({ action: "addPlayer", name });
 

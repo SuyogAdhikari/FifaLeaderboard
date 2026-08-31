@@ -1,9 +1,8 @@
 import { els } from "../ui/dom.js";
 import { escapeHtml } from "../utils/format.js";
-import { SEASON_TARGET } from "../config.js";
 
-export function renderProjection(projections) {
-  els.projTargetLabel.textContent = SEASON_TARGET;
+export function renderProjection(projections, seasonTarget) {
+  els.projTargetLabel.textContent = seasonTarget;
 
   if (projections.length === 0) {
     els.projectionList.innerHTML = `<p class="empty-text">No matches yet this season.</p>`;

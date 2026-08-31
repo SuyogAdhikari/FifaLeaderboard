@@ -18,8 +18,10 @@
  *   Headers (row 1, A1:F1): Timestamp | Season | PlayerA | PlayerB | ScoreA | ScoreB
  *
  * Tab 2: "Seasons"
- *   Headers (row 1, A1:D1): Name | Status | StartedAt | EndedAt
- *   Add one data row to start:  Season 1 | active | (today's date)  |  (leave blank)
+ *   Headers (row 1, A1:E1): Name | Status | StartedAt | EndedAt | TargetGames
+ *   Add one data row to start:  Season 1 | active | (today's date)  |  (leave blank)  |  27
+ *   (TargetGames is optional per row — leave blank to fall back to the
+ *   SEASON_TARGET constant in js/config.js.)
  *
  * Tab 3: "Players"
  *   Headers (row 1, A1:B1): Name | Active
@@ -64,6 +66,8 @@ function doPost(e) {
         return handleRemovePlayer(body);
       case "renamePlayer":
         return handleRenamePlayer(body);
+      case "updateSeasonTarget":
+        return handleUpdateSeasonTarget(body);
       default:
         return jsonResponse({ ok: false, error: "Unknown action: " + action });
     }

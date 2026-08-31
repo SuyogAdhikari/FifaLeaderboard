@@ -10,6 +10,9 @@ import {
   addPlayer,
   selectSeason,
   selectLogFilter,
+  selectH2HPlayerA,
+  selectH2HPlayerB,
+  toggleH2HExpanded,
 } from "./actions.js";
 
 export function bindEvents() {
@@ -52,6 +55,12 @@ export function bindEvents() {
 
   els.logFilterSelect.addEventListener("change", (e) => selectLogFilter(e.target.value));
 
+  els.h2hSelA.addEventListener("change", (e) => selectH2HPlayerA(e.target.value));
+
+  els.h2hSelB.addEventListener("change", (e) => selectH2HPlayerB(e.target.value));
+
+  els.h2hToggleBtn.addEventListener("click", toggleH2HExpanded);
+
   els.startNewSeasonBtn.addEventListener("click", () => {
     if (confirm('Archive "' + state.activeSeasonName + '" and start a new season? This can\'t be undone from the dashboard.')) {
       createNewSeason();
@@ -61,11 +70,11 @@ export function bindEvents() {
   els.addPlayerBtn.addEventListener("click", () => {
     const name = els.newPlayerName.value.trim();
     if (!name) {
-      showPlayerError("Enter a name first.");
+      showPlayerError(els, "Enter a name first.");
       return;
     }
     if (!state.playersTabAvailable) {
-      showPlayerError("Add a Players tab to your Sheet first — see the notice above.");
+      showPlayerError(els, "Add a Players tab to your Sheet first — see the notice above.");
       return;
     }
     addPlayer(name);

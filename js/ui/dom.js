@@ -20,8 +20,6 @@ export const els = {
   podiumRow: byId("podiumRow"),
   perfGrid: byId("perfGrid"),
 
-  targetLabel: byId("targetLabel"),
-  progressList: byId("progressList"),
 
   projTargetLabel: byId("projTargetLabel"),
   projectionList: byId("projectionList"),
@@ -37,7 +35,11 @@ export const els = {
   addMatchBtn: byId("addMatchBtn"),
   savingText: byId("savingText"),
 
-  h2hTable: byId("h2hTable"),
+  h2hSelA: byId("h2hSelA"),
+  h2hSelB: byId("h2hSelB"),
+  h2hSummary: byId("h2hSummary"),
+  h2hToggleBtn: byId("h2hToggleBtn"),
+  h2hDetail: byId("h2hDetail"),
 
   managePlayersSub: byId("managePlayersSub"),
   playersManageWarning: byId("playersManageWarning"),
