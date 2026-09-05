@@ -6,6 +6,7 @@ import {
   computeStandings,
   computeHeadToHeadDetail,
   computeProjections,
+  computeClinchStatus,
   resolveSeasonTarget,
   getActiveRosterNames,
 } from "../logic/standings.js";
@@ -16,18 +17,12 @@ import { renderPodium } from "./podium.js";
 import { renderPerformance } from "./performance.js";
 import { renderProjection } from "./projection.js";
 import { renderStandingsTable } from "./standingsTable.js";
+import { renderPositionRace } from "./positionRace.js";
 import { renderMatchFormSelects } from "./matchForm.js";
 import { renderHeadToHead } from "./headToHead.js";
 import { renderPlayers } from "./players.js";
 import { renderMatchLog } from "./matchLog.js";
 
-/**
- * Recompute derived data from state and redraw every section. Called after
- * every fetch and after every local state change (season/filter switch).
- *
- * @param {object} state
- * @param {{onRenamePlayer:Function, onRemovePlayer:Function}} playerHandlers
- */
 export function renderApp(state, playerHandlers) {
   const isActiveSeason = state.selectedSeason === state.activeSeasonName;
   const seasonMatches = state.selectedSeason ? matchesForSeason(state.allMatches, state.selectedSeason) : [];
@@ -56,7 +51,8 @@ export function renderApp(state, playerHandlers) {
   renderPerformance(standings, seasonTarget);
   renderProjection(computeProjections(standings, seasonTarget), seasonTarget);
   renderStandingsTable(standings);
-  renderMatchFormSelects(getActiveRosterNames(state));
+  renderPositionRace(computeClinchStatus(standings, seasonTarget));
+  renderMatchFormSelects(getActiveRosterNames(state), standings, seasonTarget);
   renderHeadToHead(seasonPlayers, { playerA: h2hPlayerA, playerB: h2hPlayerB, expanded: state.h2hExpanded }, h2hDetail);
   renderPlayers(state, els, { onRename: playerHandlers.onRenamePlayer, onRemove: playerHandlers.onRemovePlayer });
   renderMatchLog(state, seasonMatches, seasonPlayers);

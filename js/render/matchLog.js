@@ -19,6 +19,13 @@ export function renderMatchLog(state, seasonMatches, seasonPlayers) {
       ? seasonMatches
       : seasonMatches.filter((m) => m.playerA === state.logFilterPlayer || m.playerB === state.logFilterPlayer);
 
+  els.logToggleBtn.textContent = state.logExpanded
+    ? "Hide match log \u25B2"
+    : "Show match log (" + filteredMatches.length + ") \u25BC";
+  els.logBody.style.display = state.logExpanded ? "block" : "none";
+
+  if (!state.logExpanded) return;
+
   if (filteredMatches.length === 0) {
     els.logList.innerHTML = `<p class="empty-text">No matches to show.</p>`;
     return;

@@ -167,3 +167,32 @@ export function getActiveRosterNames(state) {
 export function resolveSeasonTarget(season, fallback) {
   return season && typeof season.targetGames === "number" && season.targetGames > 0 ? season.targetGames : fallback;
 }
+
+
+/**
+ * For each standings row, works out whether that player's current table
+ * position is mathematically safe — nobody below them can catch up even by
+ * winning every one of their remaining games — and if not, how many points
+ * and games are left to catch the player directly above, and whether that's
+ * even still possible.
+ */
+export function computeClinchStatus(standings, seasonTarget) {
+  const withCeiling = standings.map((s) => {
+    const gamesLeft = Math.max(0, seasonTarget - s.played);
+    return { ...s, gamesLeft, maxPossiblePoints: s.points + gamesLeft * 3 };
+  });
+
+  return withCeiling.map((s, i) => {
+    const clinched = withCeiling.slice(i + 1).every((below) => below.maxPossiblePoints <= s.points);
+
+    let pointsToMoveUp = null;
+    let canCatchUp = null;
+    if (i > 0) {
+      const above = withCeiling[i - 1];
+      pointsToMoveUp = Math.max(0, above.points - s.points);
+      canCatchUp = pointsToMoveUp <= s.gamesLeft * 3;
+    }
+
+    return { ...s, clinched, pointsToMoveUp, canCatchUp };
+  });
+}

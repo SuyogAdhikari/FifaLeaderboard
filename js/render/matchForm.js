@@ -1,14 +1,36 @@
 import { els } from "../ui/dom.js";
 import { escapeHtml } from "../utils/format.js";
 
-/** Populate the two player selects with the active roster, preserving the current selection where possible. */
-export function renderMatchFormSelects(activeRoster) {
+/**
+ * Populate the two player selects with the active roster, excluding anyone
+ * who has already played the season's target number of games — they can't
+ * be selected for a new match once they've hit that cap.
+ */
+export function renderMatchFormSelects(activeRoster, standings, seasonTarget) {
+  const playedByName = {};
+  standings.forEach((s) => {
+    playedByName[s.name] = s.played;
+  });
+
+  const eligible = activeRoster.filter((p) => (playedByName[p] || 0) < seasonTarget);
+  const maxedOut = activeRoster.filter((p) => (playedByName[p] || 0) >= seasonTarget);
+
   [els.selA, els.selB].forEach((sel, idx) => {
     const prevVal = sel.value;
-    sel.innerHTML = activeRoster.map((p) => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
-    if (activeRoster.includes(prevVal)) sel.value = prevVal;
-    else sel.selectedIndex = Math.min(idx, activeRoster.length - 1);
+    sel.innerHTML = eligible.map((p) => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+    if (eligible.includes(prevVal)) sel.value = prevVal;
+    else sel.selectedIndex = Math.min(idx, eligible.length - 1);
   });
+
+  if (maxedOut.length > 0) {
+    els.formMaxedNote.textContent =
+      maxedOut.map(escapeHtml).join(", ") + " reached this season's game limit and can't be selected.";
+    els.formMaxedNote.style.display = "block";
+  } else {
+    els.formMaxedNote.style.display = "none";
+  }
+
+  els.addMatchBtn.disabled = eligible.length < 2;
 }
 
 export function showFormError(message) {

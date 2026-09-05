@@ -55,6 +55,7 @@
     <div class="section" id="recordSection">
       <h2>Record a match</h2>
       <p class="section-sub">Writes straight to your Google Sheet.</p>
+      <p class="inline-note" id="formMaxedNote" style="display:none;"></p>
       <div class="form-row">
         <select id="selA"></select>
         <input type="number" id="scoreA" min="0" placeholder="0" />
@@ -83,6 +84,12 @@
           <tbody id="standingsBody"></tbody>
         </table>
       </div>
+    </div>
+
+    <div class="section">
+      <h2>Race for position</h2>
+      <p class="section-sub">Who's locked in, and what it'll take for others to move up</p>
+      <div id="positionRaceList"></div>
     </div>
 
 
@@ -120,10 +127,15 @@
     <div class="section">
       <div class="section-head-row">
         <h2>Score history</h2>
-        <select class="log-filter" id="logFilterSelect"></select>
+        <button class="btn-icon" id="logToggleBtn"></button>
       </div>
-      <p class="section-sub">Most recent first</p>
-      <div id="logList"></div>
+      <div id="logBody" style="display:none;">
+        <div class="section-head-row" style="margin-top:10px;">
+          <select class="log-filter" id="logFilterSelect"></select>
+        </div>
+        <p class="section-sub">Most recent first</p>
+        <div id="logList"></div>
+      </div>
     </div>
   </div>
 

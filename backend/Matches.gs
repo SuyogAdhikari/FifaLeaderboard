@@ -27,6 +27,23 @@ function handleAddMatch(body) {
     return jsonResponse({ ok: false, error: "Missing or invalid fields" });
   }
 
+  const seasons = getSeasons();
+  const seasonObj = seasons.find((s) => s.name === season);
+  const target =
+    seasonObj && typeof seasonObj.targetGames === "number" && seasonObj.targetGames > 0 ? seasonObj.targetGames : null;
+
+  if (target) {
+    const existing = getMatches().filter((m) => m.season === season);
+    const playedCount = (name) => existing.filter((m) => m.playerA === name || m.playerB === name).length;
+
+    if (playedCount(playerA) >= target) {
+      return jsonResponse({ ok: false, error: playerA + " has already played this season's " + target + " games." });
+    }
+    if (playedCount(playerB) >= target) {
+      return jsonResponse({ ok: false, error: playerB + " has already played this season's " + target + " games." });
+    }
+  }
+
   const sheet = getSheet(MATCH_SHEET);
   const timestamp = new Date();
   sheet.appendRow([timestamp, season, playerA, playerB, scoreA, scoreB]);

@@ -50,7 +50,12 @@ export async function fetchData() {
 export async function submitMatch(playerA, playerB, scoreA, scoreB) {
   setSavingText("Saving…");
   try {
-    await api.addMatch(state.activeSeasonName, playerA, playerB, scoreA, scoreB);
+    const data = await api.addMatch(state.activeSeasonName, playerA, playerB, scoreA, scoreB);
+    if (!data.ok) {
+      setSavingText("");
+      showFormError(data.error || "Couldn't save to the sheet.");
+      return;
+    }
     setSavingText("Saved");
     setTimeout(() => setSavingText(""), 1500);
     await fetchData();
@@ -138,6 +143,11 @@ export function selectH2HPlayerB(name) {
 
 export function toggleH2HExpanded() {
   state.h2hExpanded = !state.h2hExpanded;
+  render();
+}
+
+export function toggleMatchLog() {
+  state.logExpanded = !state.logExpanded;
   render();
 }
 

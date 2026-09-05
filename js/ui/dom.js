@@ -25,6 +25,7 @@ export const els = {
   projectionList: byId("projectionList"),
 
   standingsBody: byId("standingsBody"),
+  positionRaceList: byId("positionRaceList"),
 
   recordSection: byId("recordSection"),
   selA: byId("selA"),
@@ -32,6 +33,7 @@ export const els = {
   scoreA: byId("scoreA"),
   scoreB: byId("scoreB"),
   formError: byId("formError"),
+  formMaxedNote: byId("formMaxedNote"),
   addMatchBtn: byId("addMatchBtn"),
   savingText: byId("savingText"),
 
@@ -51,4 +53,6 @@ export const els = {
 
   logFilterSelect: byId("logFilterSelect"),
   logList: byId("logList"),
+  logToggleBtn: byId("logToggleBtn"),
+  logBody: byId("logBody"),
 };

@@ -13,6 +13,7 @@ import {
   selectH2HPlayerA,
   selectH2HPlayerB,
   toggleH2HExpanded,
+  toggleMatchLog,
 } from "./actions.js";
 
 export function bindEvents() {
@@ -60,6 +61,8 @@ export function bindEvents() {
   els.h2hSelB.addEventListener("change", (e) => selectH2HPlayerB(e.target.value));
 
   els.h2hToggleBtn.addEventListener("click", toggleH2HExpanded);
+
+  els.logToggleBtn.addEventListener("click", toggleMatchLog);
 
   els.startNewSeasonBtn.addEventListener("click", () => {
     if (confirm('Archive "' + state.activeSeasonName + '" and start a new season? This can\'t be undone from the dashboard.')) {
