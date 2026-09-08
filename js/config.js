@@ -5,7 +5,7 @@
  * full deployment walkthrough.
  */
 export const API_URL =
-  "https://script.google.com/macros/s/AKfycbxVm6zHXVqrmLHoSL_Z3bB-oCv1k21BlU754C9iOFA4U717C6sgG7m7O2w5tFg2QOI/exec";
+  "https://script.google.com/macros/s/AKfycbykcBuZWDDApJpS5DZ5Cx4RYOj1V2dflQCeVAlxArLVe-mSp8VEI5FL9sZCVsPZ_aSS/exec";
 
 export const SEASON_TARGET = 27;
 export const REFRESH_MS = 15000;

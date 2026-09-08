@@ -168,13 +168,13 @@ export function resolveSeasonTarget(season, fallback) {
   return season && typeof season.targetGames === "number" && season.targetGames > 0 ? season.targetGames : fallback;
 }
 
-
 /**
- * For each standings row, works out whether that player's current table
- * position is mathematically safe — nobody below them can catch up even by
- * winning every one of their remaining games — and if not, how many points
- * and games are left to catch the player directly above, and whether that's
- * even still possible.
+ * For each standings row, works out whether that player's table position is
+ * fully locked — both safe from anyone below catching them, AND unable to
+ * catch the player above them (the leader is always "unable to move up"
+ * trivially, since there's no one above). Without both conditions, a
+ * last-place player would show as falsely "locked" just because there's no
+ * one below them to begin with.
  */
 export function computeClinchStatus(standings, seasonTarget) {
   const withCeiling = standings.map((s) => {
@@ -183,16 +183,41 @@ export function computeClinchStatus(standings, seasonTarget) {
   });
 
   return withCeiling.map((s, i) => {
-    const clinched = withCeiling.slice(i + 1).every((below) => below.maxPossiblePoints <= s.points);
+    const safeFromBelow = withCeiling.slice(i + 1).every((below) => below.maxPossiblePoints <= s.points);
 
     let pointsToMoveUp = null;
-    let canCatchUp = null;
+    let canCatchAbove = null;
     if (i > 0) {
       const above = withCeiling[i - 1];
       pointsToMoveUp = Math.max(0, above.points - s.points);
-      canCatchUp = pointsToMoveUp <= s.gamesLeft * 3;
+      canCatchAbove = pointsToMoveUp <= s.gamesLeft * 3;
     }
 
-    return { ...s, clinched, pointsToMoveUp, canCatchUp };
+    const cannotMoveUp = i === 0 ? true : !canCatchAbove;
+    const locked = safeFromBelow && cannotMoveUp;
+
+    return { ...s, locked, pointsToMoveUp };
   });
+}
+
+/** Points gained by each player from matches played in the last 7 days. */
+export function computeWeeklyPointsChange(matches, playerList) {
+  const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  const changes = {};
+  playerList.forEach((p) => (changes[p] = 0));
+
+  matches.forEach((m) => {
+    const ts = new Date(m.timestamp).getTime();
+    if (isNaN(ts) || ts < cutoff) return;
+    if (!(m.playerA in changes) || !(m.playerB in changes)) return;
+
+    if (m.scoreA > m.scoreB) changes[m.playerA] += 3;
+    else if (m.scoreB > m.scoreA) changes[m.playerB] += 3;
+    else {
+      changes[m.playerA] += 1;
+      changes[m.playerB] += 1;
+    }
+  });
+
+  return changes; // { playerName: pointsGainedInLast7Days }
 }

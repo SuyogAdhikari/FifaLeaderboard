@@ -105,9 +105,9 @@ table.min420 { min-width: 420px; }
 .progress-fill.done { background: var(--gold); }
 .progress-count { width: 52px; text-align: right; font-family: var(--font-mono); font-size: 12px; color: var(--chalk-dim); flex-shrink: 0; }
 
-.proj-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.proj-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
 .proj-row:last-child { margin-bottom: 0; }
-.proj-name { width: 76px; font-size: 13px; flex-shrink: 0; }
+.proj-name { width: 100px; font-size: 13px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .proj-track {
   flex: 1; height: 8px; border-radius: 4px;
   background: rgba(244,241,232,0.08); position: relative; overflow: hidden;
@@ -247,14 +247,10 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .perf-progress-fill.done { background: var(--gold); }
 .perf-progress-count { font-family: var(--font-mono); font-size: 11px; color: var(--chalk-dim); text-align: right; }
 
-.race-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.race-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; }
 .race-row:last-child { margin-bottom: 0; }
 .race-rank { font-family: var(--font-mono); font-size: 11px; color: var(--chalk-dim); width: 24px; flex-shrink: 0; }
-.race-name { font-size: 13px; font-weight: 500; width: 76px; flex-shrink: 0; }
-.race-track { flex: 1; height: 8px; border-radius: 4px; background: rgba(244,241,232,0.08); overflow: hidden; min-width: 60px; }
-.race-fill { height: 100%; background: var(--gold); border-radius: 4px; }
+.race-name { font-size: 13px; font-weight: 500; width: 100px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .race-need { font-family: var(--font-mono); font-size: 11px; color: var(--chalk-dim); flex-shrink: 0; }
-.race-tag { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 999px; }
-.race-tag-clinched { background: rgba(217,164,65,0.15); color: var(--gold); }
-.race-tag-out { background: rgba(193,68,45,0.12); color: var(--red); }
+.race-medal { font-size: 20px; }
 .race-note { font-size: 12px; color: var(--chalk-dim); }

@@ -7,6 +7,7 @@ import {
   computeHeadToHeadDetail,
   computeProjections,
   computeClinchStatus,
+  computeWeeklyPointsChange,
   resolveSeasonTarget,
   getActiveRosterNames,
 } from "../logic/standings.js";
@@ -50,7 +51,7 @@ export function renderApp(state, playerHandlers) {
   renderPodium(standings);
   renderPerformance(standings, seasonTarget);
   renderProjection(computeProjections(standings, seasonTarget), seasonTarget);
-  renderStandingsTable(standings);
+  renderStandingsTable(standings, computeWeeklyPointsChange(seasonMatches, seasonPlayers));
   renderPositionRace(computeClinchStatus(standings, seasonTarget));
   renderMatchFormSelects(getActiveRosterNames(state), standings, seasonTarget);
   renderHeadToHead(seasonPlayers, { playerA: h2hPlayerA, playerB: h2hPlayerB, expanded: state.h2hExpanded }, h2hDetail);
