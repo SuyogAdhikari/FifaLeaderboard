@@ -14,17 +14,25 @@ import {
 
 import { renderSeasonBar } from "./seasonBar.js";
 import { renderStatCards } from "./statCards.js";
-import { renderPodium } from "./podium.js";
-import { renderPerformance } from "./performance.js";
-import { renderProjection } from "./projection.js";
-import { renderStandingsTable } from "./standingsTable.js";
-import { renderPositionRace } from "./positionRace.js";
 import { renderMatchFormSelects } from "./matchForm.js";
+import { renderStandingsSection } from "./standingsTable.js";
+import { renderOutlook } from "./outlook.js";
 import { renderHeadToHead } from "./headToHead.js";
-import { renderPlayers } from "./players.js";
 import { renderMatchLog } from "./matchLog.js";
 
-export function renderApp(state, playerHandlers) {
+/**
+ * Recompute derived data from state and redraw every section, top to
+ * bottom in the same order they appear on the page. Called after every
+ * fetch and after every local state change (season switch, a filter
+ * changing, a section being expanded, etc).
+ *
+ * Player *management* isn't rendered here at all — that's Admin's job now
+ * (js/admin/render.js) — this only reads the roster to filter the
+ * match-record dropdowns.
+ *
+ * @param {object} state
+ */
+export function renderApp(state) {
   const isActiveSeason = state.selectedSeason === state.activeSeasonName;
   const seasonMatches = state.selectedSeason ? matchesForSeason(state.allMatches, state.selectedSeason) : [];
   const seasonPlayers = playersForSeason(seasonMatches, DEFAULT_PLAYERS);
@@ -48,13 +56,15 @@ export function renderApp(state, playerHandlers) {
 
   renderSeasonBar(state, isActiveSeason, allReachedTarget);
   renderStatCards(seasonMatches, standings);
-  renderPodium(standings);
-  renderPerformance(standings, seasonTarget);
-  renderProjection(computeProjections(standings, seasonTarget), seasonTarget);
-  renderStandingsTable(standings, computeWeeklyPointsChange(seasonMatches, seasonPlayers));
-  renderPositionRace(computeClinchStatus(standings, seasonTarget));
   renderMatchFormSelects(getActiveRosterNames(state), standings, seasonTarget);
+  renderStandingsSection(standings, computeWeeklyPointsChange(seasonMatches, seasonPlayers));
+  renderOutlook(
+    state,
+    standings,
+    computeProjections(standings, seasonTarget),
+    computeClinchStatus(standings, seasonTarget),
+    seasonTarget
+  );
   renderHeadToHead(seasonPlayers, { playerA: h2hPlayerA, playerB: h2hPlayerB, expanded: state.h2hExpanded }, h2hDetail);
-  renderPlayers(state, els, { onRename: playerHandlers.onRenamePlayer, onRemove: playerHandlers.onRemovePlayer });
   renderMatchLog(state, seasonMatches, seasonPlayers);
 }

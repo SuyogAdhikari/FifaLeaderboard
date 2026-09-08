@@ -2,18 +2,16 @@ import { els } from "./ui/dom.js";
 import { isApiConfigured } from "./config.js";
 import { state } from "./state/store.js";
 import { showFormError } from "./render/matchForm.js";
-import { showPlayerError } from "./render/players.js";
 import {
   fetchData,
   submitMatch,
-  createNewSeason,
-  addPlayer,
   selectSeason,
   selectLogFilter,
+  toggleMatchLog,
+  toggleOutlook,
   selectH2HPlayerA,
   selectH2HPlayerB,
   toggleH2HExpanded,
-  toggleMatchLog,
 } from "./actions.js";
 
 export function bindEvents() {
@@ -53,36 +51,11 @@ export function bindEvents() {
   });
 
   els.seasonSelect.addEventListener("change", (e) => selectSeason(e.target.value));
-
   els.logFilterSelect.addEventListener("change", (e) => selectLogFilter(e.target.value));
-
-  els.h2hSelA.addEventListener("change", (e) => selectH2HPlayerA(e.target.value));
-
-  els.h2hSelB.addEventListener("change", (e) => selectH2HPlayerB(e.target.value));
-
-  els.h2hToggleBtn.addEventListener("click", toggleH2HExpanded);
-
   els.logToggleBtn.addEventListener("click", toggleMatchLog);
-
-  els.startNewSeasonBtn.addEventListener("click", () => {
-    if (confirm('Archive "' + state.activeSeasonName + '" and start a new season? This can\'t be undone from the dashboard.')) {
-      createNewSeason();
-    }
-  });
-
-  els.addPlayerBtn.addEventListener("click", () => {
-    const name = els.newPlayerName.value.trim();
-    if (!name) {
-      showPlayerError(els, "Enter a name first.");
-      return;
-    }
-    if (!state.playersTabAvailable) {
-      showPlayerError(els, "Add a Players tab to your Sheet first — see the notice above.");
-      return;
-    }
-    addPlayer(name);
-    els.newPlayerName.value = "";
-  });
-
+  els.outlookToggleBtn.addEventListener("click", toggleOutlook);
+  els.h2hSelA.addEventListener("change", (e) => selectH2HPlayerA(e.target.value));
+  els.h2hSelB.addEventListener("change", (e) => selectH2HPlayerB(e.target.value));
+  els.h2hToggleBtn.addEventListener("click", toggleH2HExpanded);
   els.refreshBtn.addEventListener("click", fetchData);
 }

@@ -16,6 +16,14 @@
 
     <div id="configWarning" class="config-warning" style="display:none;"></div>
 
+    <nav class="app-nav" aria-label="Section navigation">
+      <a href="#record">Record</a>
+      <a href="#standings">Standings</a>
+      <a href="#outlook">Outlook</a>
+      <a href="#h2h">Head to head</a>
+      <a href="#history">History</a>
+    </nav>
+
     <div class="season-bar">
       <select class="season-select" id="seasonSelect"></select>
       <span class="season-badge" id="seasonBadge"></span>
@@ -28,8 +36,8 @@
     </div>
 
     <div id="seasonCompleteBanner" class="season-complete-banner" style="display:none;">
-      <div class="msg"><strong>Every player has reached the games target.</strong><br>Archive this season and start a new one whenever you're ready.</div>
-      <button class="btn-primary" id="startNewSeasonBtn">Start new season</button>
+      <div class="msg"><strong>Every player has reached the games target.</strong><br>Head to Admin to archive this season and start a new one.</div>
+      <a class="btn-primary" href="admin.html">Start new season</a>
     </div>
 
     <div class="refresh-row">
@@ -37,26 +45,13 @@
       <button class="btn-refresh" id="refreshBtn">&#8635; Refresh</button>
     </div>
 
-    <div class="section" id="podiumSection">
-      <h2>Podium</h2>
-      <p class="section-sub">Top 3 in the current standings</p>
-      <div class="podium-row" id="podiumRow"></div>
-    </div>
-    
     <div class="stat-grid" id="statGrid"></div>
 
-
-    <div class="section">
-      <h2>Performance</h2>
-      <p class="section-sub">Win rate, goals, and recent results at a glance</p>
-      <div class="perf-grid" id="perfGrid"></div>
-    </div>
-
-    <div class="section" id="recordSection">
+    <div class="section" id="record">
       <h2>Record a match</h2>
       <p class="section-sub">Writes straight to your Google Sheet.</p>
       <p class="inline-note" id="formMaxedNote" style="display:none;"></p>
-      <div class="form-row">
+      <div class="form-row" id="recordSection">
         <select id="selA"></select>
         <input type="number" id="scoreA" min="0" placeholder="0" />
         <span class="score-dash">–</span>
@@ -70,16 +65,17 @@
       </div>
     </div>
 
-    <div class="section">
+    <div class="section" id="standings">
       <h2>Standings</h2>
+      <p class="section-sub">Top 3 podium, full table, and each player's points gained this week</p>
+      <div class="podium-row" id="podiumRow"></div>
       <div class="table-scroll">
         <table class="min480" id="standingsTable">
           <thead>
             <tr>
               <th class="left">#</th><th class="left">Player</th>
               <th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Win%</th>
-              <th class="right">Pts</th>
-              <th>7d</th>
+              <th class="right">Pts</th><th>7d</th>
             </tr>
           </thead>
           <tbody id="standingsBody"></tbody>
@@ -87,15 +83,18 @@
       </div>
     </div>
 
-    <div class="section">
-      <h2>Race for position</h2>
-      <p class="section-sub">Who's locked in, and what it'll take for others to move up</p>
-      <div id="positionRaceList"></div>
+    <div class="section" id="outlook">
+      <div class="section-head-row">
+        <h2>Player outlook</h2>
+        <button class="btn-icon" id="outlookToggleBtn"></button>
+      </div>
+      <div id="outlookBody" style="display:none;">
+        <p class="section-sub">Form, projected finish, and what it'll take to move up — per player</p>
+        <div class="outlook-grid" id="outlookGrid"></div>
+      </div>
     </div>
 
-
-
-    <div class="section">
+    <div class="section" id="h2h">
       <h2>Head to head</h2>
       <p class="section-sub">Pick two players to see how they've matched up</p>
       <div class="h2h-picker">
@@ -107,25 +106,8 @@
       <button class="btn-icon" id="h2hToggleBtn" style="display:none;"></button>
       <div id="h2hDetail" style="display:none;"></div>
     </div>
-    <div class="section">
-      <h2>Projected finish</h2>
-      <p class="section-sub">Estimated points if each player keeps their current pace to <span id="projTargetLabel">27</span> games</p>
-      <div id="projectionList"></div>
-    </div>
 
-    <div class="section" style="display: none;">
-      <h2>Players</h2>
-      <p class="section-sub" id="managePlayersSub">Rename, add, or remove players from the active roster.</p>
-      <div id="playersManageWarning" class="inline-note" style="display:none;"></div>
-      <div id="playersList"></div>
-      <div class="form-row" id="addPlayerRow">
-        <input type="text" id="newPlayerName" placeholder="New player name" />
-        <button class="btn-primary" id="addPlayerBtn">+ Add player</button>
-      </div>
-      <p class="error-text" id="playerError" style="display:none;"></p>
-    </div>
-
-    <div class="section">
+    <div class="section" id="history">
       <div class="section-head-row">
         <h2>Score history</h2>
         <button class="btn-icon" id="logToggleBtn"></button>

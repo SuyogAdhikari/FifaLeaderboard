@@ -5,22 +5,16 @@ import { els } from "./ui/dom.js";
 import { renderApp } from "./render/index.js";
 import { showConfigWarning, hideConfigWarning } from "./render/configWarning.js";
 import { setSavingText, showFormError } from "./render/matchForm.js";
-import { showPlayerError } from "./render/players.js";
-
-const playerHandlers = {
-  onRenamePlayer: (oldName, newName) => renamePlayer(oldName, newName),
-  onRemovePlayer: (name) => removePlayer(name),
-};
 
 function render() {
-  renderApp(state, playerHandlers);
+  renderApp(state);
 }
 
 export async function fetchData() {
   if (!isApiConfigured()) {
-    showConfigWarning(`This dashboard isn't connected to your Google Sheet yet. Open <code>index.html</code>,
-      find <code>const API_URL = "..."</code> in <code>js/config.js</code>, and paste in your
-      Apps Script Web App URL. See <code>SETUP.md</code> for the full walkthrough.`);
+    showConfigWarning(`This dashboard isn't connected to your Google Sheet yet. Open
+      <code>js/config.js</code> and paste your Apps Script Web App URL into
+      <code>API_URL</code>. See <code>README.md</code> for the full walkthrough.`);
     render();
     return;
   }
@@ -32,8 +26,8 @@ export async function fetchData() {
 
       if (state.seasons.length === 0) {
         showConfigWarning(`No seasons found in your <code>Seasons</code> tab. Add a header row
-          (<code>Name | Status | StartedAt | EndedAt</code>) and one data row like
-          <code>Season 1 | active | (today) | </code>. See <code>SETUP.md</code>.`);
+          (<code>Name | Status | StartedAt | EndedAt | TargetGames</code>) and one data row like
+          <code>Season 1 | active | (today) | | 27</code>. See <code>README.md</code>.`);
       } else {
         hideConfigWarning();
       }
@@ -65,61 +59,6 @@ export async function submitMatch(playerA, playerB, scoreA, scoreB) {
   }
 }
 
-export async function createNewSeason() {
-  els.startNewSeasonBtn.disabled = true;
-  els.startNewSeasonBtn.textContent = "Starting…";
-  try {
-    const data = await api.startNewSeason();
-    if (data.ok) state.selectedSeason = data.season;
-    await fetchData();
-  } catch (e) {
-    els.startNewSeasonBtn.disabled = false;
-    els.startNewSeasonBtn.textContent = "Start new season";
-  }
-}
-
-export async function addPlayer(name) {
-  showPlayerError(els, "");
-  try {
-    const data = await api.addPlayer(name);
-    if (!data.ok) {
-      showPlayerError(els, data.error || "Couldn't add player.");
-      return;
-    }
-    await fetchData();
-  } catch (e) {
-    showPlayerError(els, "Couldn't reach the sheet.");
-  }
-}
-
-async function removePlayer(name) {
-  showPlayerError(els, "");
-  try {
-    const data = await api.removePlayer(name);
-    if (!data.ok) {
-      showPlayerError(els, data.error || "Couldn't remove player.");
-      return;
-    }
-    await fetchData();
-  } catch (e) {
-    showPlayerError(els, "Couldn't reach the sheet.");
-  }
-}
-
-async function renamePlayer(oldName, newName) {
-  showPlayerError(els, "");
-  try {
-    const data = await api.renamePlayer(oldName, newName);
-    if (!data.ok) {
-      showPlayerError(els, data.error || "Couldn't rename player.");
-      return;
-    }
-    await fetchData();
-  } catch (e) {
-    showPlayerError(els, "Couldn't reach the sheet.");
-  }
-}
-
 export function selectSeason(seasonName) {
   state.selectedSeason = seasonName;
   state.logFilterPlayer = "all";
@@ -128,6 +67,16 @@ export function selectSeason(seasonName) {
 
 export function selectLogFilter(playerName) {
   state.logFilterPlayer = playerName;
+  render();
+}
+
+export function toggleMatchLog() {
+  state.logExpanded = !state.logExpanded;
+  render();
+}
+
+export function toggleOutlook() {
+  state.outlookExpanded = !state.outlookExpanded;
   render();
 }
 
@@ -143,11 +92,6 @@ export function selectH2HPlayerB(name) {
 
 export function toggleH2HExpanded() {
   state.h2hExpanded = !state.h2hExpanded;
-  render();
-}
-
-export function toggleMatchLog() {
-  state.logExpanded = !state.logExpanded;
   render();
 }
 

@@ -1,3 +1,8 @@
+/**
+ * Seasons.gs — reading seasons, archiving the active one and starting a
+ * new one, and updating the active season's games-per-player target.
+ */
+
 /** All seasons as plain objects. Empty array if the Seasons tab doesn't exist. */
 function getSeasons() {
   const sheet = getSheet(SEASON_SHEET);

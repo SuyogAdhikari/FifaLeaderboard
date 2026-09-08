@@ -1,7 +1,8 @@
 /**
- * Pure functions for turning raw match rows into standings / head-to-head
- * data. Nothing in this module touches the DOM or app state, so it can be
- * unit-tested in isolation.
+ * Pure functions for turning raw match rows into standings, head-to-head,
+ * projection, and "race for position" data. Nothing in this module touches
+ * the DOM or app state, so every function here can be unit-tested in
+ * isolation just by calling it with plain data.
  */
 
 /** Matches belonging to a given season. */
@@ -64,9 +65,8 @@ export function computeStandings(matches, playerList) {
 
 /**
  * Full match-by-match breakdown between exactly two players, from
- * playerA's perspective, plus summary stats for that pairing. Assumes the
- * two names are distinct; returns a zeroed summary (played: 0) if they
- * haven't met yet.
+ * playerA's perspective, plus summary stats for that pairing. Returns a
+ * zeroed summary (played: 0) if they haven't met yet.
  */
 export function computeHeadToHeadDetail(matches, playerA, playerB) {
   const meetings = matches
@@ -131,28 +131,26 @@ export function computeHeadToHeadDetail(matches, playerA, playerB) {
 /**
  * Projects each player's likely season-end points total by extrapolating
  * their current points-per-game rate across the games they have left until
- * the season target. This is a simple linear projection (it doesn't account
- * for who's left to play, form trends, etc.) — treat it as a "if this pace
- * holds" estimate, not a guarantee.
- *
- * Returns entries sorted by projected points, richest first.
+ * the season target. A simple linear projection — it doesn't know who's
+ * left to play or account for form — so treat it as an "if this pace
+ * holds" estimate, not a forecast. Returns entries in the same order as
+ * the input `standings` (i.e. current table order), each tagged with the
+ * player's name so callers can join back to other per-player data.
  */
 export function computeProjections(standings, seasonTarget) {
-  return standings
-    .map((s) => {
-      const remainingGames = Math.max(0, seasonTarget - s.played);
-      const pointsPerGame = s.played > 0 ? s.points / s.played : 0;
-      const projectedPoints = s.points + pointsPerGame * remainingGames;
-      return {
-        name: s.name,
-        played: s.played,
-        points: s.points,
-        remainingGames,
-        pointsPerGame,
-        projectedPoints: Math.round(projectedPoints),
-      };
-    })
-    .sort((a, b) => b.projectedPoints - a.projectedPoints);
+  return standings.map((s) => {
+    const remainingGames = Math.max(0, seasonTarget - s.played);
+    const pointsPerGame = s.played > 0 ? s.points / s.played : 0;
+    const projectedPoints = s.points + pointsPerGame * remainingGames;
+    return {
+      name: s.name,
+      played: s.played,
+      points: s.points,
+      remainingGames,
+      pointsPerGame,
+      projectedPoints: Math.round(projectedPoints),
+    };
+  });
 }
 
 /** Names eligible to appear in the "record a match" dropdowns. */
@@ -172,9 +170,10 @@ export function resolveSeasonTarget(season, fallback) {
  * For each standings row, works out whether that player's table position is
  * fully locked — both safe from anyone below catching them, AND unable to
  * catch the player above them (the leader is always "unable to move up"
- * trivially, since there's no one above). Without both conditions, a
- * last-place player would show as falsely "locked" just because there's no
- * one below them to begin with.
+ * trivially, since there's no one above). Requiring both conditions matters:
+ * without it, a last-place player would show as falsely "locked" just
+ * because there's no one below them to begin with. Returns entries in the
+ * same order as the input `standings`.
  */
 export function computeClinchStatus(standings, seasonTarget) {
   const withCeiling = standings.map((s) => {
@@ -200,7 +199,7 @@ export function computeClinchStatus(standings, seasonTarget) {
   });
 }
 
-/** Points gained by each player from matches played in the last 7 days. */
+/** Points gained by each player from matches played in the last 7 days, keyed by name. */
 export function computeWeeklyPointsChange(matches, playerList) {
   const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const changes = {};
@@ -219,5 +218,5 @@ export function computeWeeklyPointsChange(matches, playerList) {
     }
   });
 
-  return changes; // { playerName: pointsGainedInLast7Days }
+  return changes;
 }

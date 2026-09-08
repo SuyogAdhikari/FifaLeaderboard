@@ -1,3 +1,11 @@
+/**
+ * Matches.gs — reading and appending match rows, with season-target
+ * enforcement so a player who has already played their season's quota of
+ * games can't have another match recorded against their name (mirrors the
+ * client-side dropdown filter in js/render/matchForm.js, but enforced here
+ * too since the Web App has no auth and can be posted to directly).
+ */
+
 /** All recorded matches, oldest first, as plain objects. */
 function getMatches() {
   const sheet = getSheet(MATCH_SHEET);
@@ -27,8 +35,7 @@ function handleAddMatch(body) {
     return jsonResponse({ ok: false, error: "Missing or invalid fields" });
   }
 
-  const seasons = getSeasons();
-  const seasonObj = seasons.find((s) => s.name === season);
+  const seasonObj = getSeasons().find((s) => s.name === season);
   const target =
     seasonObj && typeof seasonObj.targetGames === "number" && seasonObj.targetGames > 0 ? seasonObj.targetGames : null;
 

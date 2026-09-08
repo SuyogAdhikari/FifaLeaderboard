@@ -10,6 +10,7 @@ export function renderAdmin(state, playerHandlers) {
     els.adminSeasonSub.textContent = "No active season found.";
   } else {
     els.adminSeasonSub.textContent = `${activeSeason.name} · active`;
+    // Don't clobber the value while the person is actively typing in it.
     if (document.activeElement !== els.targetGamesInput) {
       els.targetGamesInput.value = resolveSeasonTarget(activeSeason, SEASON_TARGET);
     }

@@ -4,7 +4,9 @@ import { escapeHtml } from "../utils/format.js";
 /**
  * Populate the two player selects with the active roster, excluding anyone
  * who has already played the season's target number of games — they can't
- * be selected for a new match once they've hit that cap.
+ * be selected for a new match once they've hit that cap (also enforced
+ * server-side in backend/Matches.gs, since this dropdown filter alone
+ * can't stop a direct POST to the unauthenticated Web App).
  */
 export function renderMatchFormSelects(activeRoster, standings, seasonTarget) {
   const playedByName = {};

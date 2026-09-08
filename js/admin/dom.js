@@ -1,3 +1,4 @@
+/** Every DOM node the Admin page reads or writes. Separate from the dashboard's js/ui/dom.js since this is a different document. */
 function byId(id) {
   return document.getElementById(id);
 }

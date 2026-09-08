@@ -21,7 +21,7 @@ export function renderMatchLog(state, seasonMatches, seasonPlayers) {
 
   els.logToggleBtn.textContent = state.logExpanded
     ? "Hide match log \u25B2"
-    : "Show match log (" + filteredMatches.length + ") \u25BC";
+    : `Show match log (${filteredMatches.length}) \u25BC`;
   els.logBody.style.display = state.logExpanded ? "block" : "none";
 
   if (!state.logExpanded) return;

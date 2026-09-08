@@ -33,5 +33,7 @@ export function renderSeasonBar(state, isActiveSeason, allReachedTarget) {
 
   els.archivedNote.style.display = isActiveSeason ? "none" : "block";
   els.recordSection.style.display = isActiveSeason ? "block" : "none";
+  // Starting a new season is an Admin-only action (it needs a games-per-player
+  // target), so this banner just links there rather than acting itself.
   els.seasonCompleteBanner.style.display = isActiveSeason && allReachedTarget ? "flex" : "none";
 }

@@ -1,43 +1,46 @@
 /**
- * FIFA League — Google Sheets backend
+ * FIFA Ranking Power League — Google Sheets backend
  *
- * This project is split into several files (Google Apps Script shares one
- * global scope across all files in a project, so this is purely for
- * readability — it behaves exactly like a single script):
+ * Apps Script shares one global scope across every file in a project, so
+ * this split into several files is purely for readability — it behaves
+ * exactly like one script.
  *
  *   Code.gs     - doGet/doPost routing (this file)
- *   Sheets.gs   - sheet name constants + a shared helper to look them up
- *   Matches.gs  - reading + appending match rows
- *   Seasons.gs  - reading seasons, archiving/starting a season
- *   Players.gs  - reading, adding, removing, renaming players
+ *   Sheets.gs   - sheet name constants + a shared lookup helper
+ *   Matches.gs  - reading + appending match rows, with target enforcement
+ *   Seasons.gs  - reading seasons, archiving/starting a season, target updates
+ *   Players.gs  - reading, adding, soft-removing, renaming players
  *   Utils.gs    - small shared helpers (JSON response)
  *
- * SHEET SETUP — you need THREE tabs:
+ * SHEET SETUP — three tabs, exactly these headers:
  *
  * Tab 1: "Matches"
- *   Headers (row 1, A1:F1): Timestamp | Season | PlayerA | PlayerB | ScoreA | ScoreB
+ *   Timestamp | Season | PlayerA | PlayerB | ScoreA | ScoreB
  *
  * Tab 2: "Seasons"
- *   Headers (row 1, A1:E1): Name | Status | StartedAt | EndedAt | TargetGames
- *   Add one data row to start:  Season 1 | active | (today's date)  |  (leave blank)  |  27
- *   (TargetGames is optional per row — leave blank to fall back to the
- *   SEASON_TARGET constant in js/config.js.)
+ *   Name | Status | StartedAt | EndedAt | TargetGames
+ *   One starting row, e.g.:  Season 1 | active | (today's date) | | 27
+ *   TargetGames is optional per row — leave blank to fall back to the
+ *   SEASON_TARGET constant in js/config.js.
  *
  * Tab 3: "Players"
- *   Headers (row 1, A1:B1): Name | Active
- *   Add one row per player, e.g.:  Basanta | TRUE
- *   (Active = TRUE means they show up when recording new matches. Setting it
- *   to FALSE "removes" them from that list without touching match history.)
+ *   Name | Active
+ *   One row per player, e.g.: Basanta | TRUE
+ *   Active = TRUE means they appear in the "record a match" dropdowns.
+ *   Setting it to FALSE removes them from that list without touching
+ *   their match history.
  *
- * DEPLOY:
- * 1. Extensions > Apps Script, create one file per module above (or paste
- *    them all into one file — the app works identically either way).
+ * DEPLOY
+ * 1. Extensions > Apps Script — create one script file per module above
+ *    (or paste everything into one file; it works identically either way).
  * 2. Deploy > New deployment > Web app.
- *    - Execute as: Me
- *    - Who has access: Anyone
- * 3. Authorize, then copy the Web app URL into js/config.js (API_URL).
- * 4. Any time you edit this script, create a new version under
- *    "Manage deployments" for the changes to go live — the URL stays the same.
+ *      Execute as: Me
+ *      Who has access: Anyone
+ * 3. Authorize, then paste the Web app URL into API_URL in js/config.js.
+ * 4. Every time you edit this script, create a new version under
+ *    "Manage deployments" for the change to actually go live — the URL
+ *    itself never changes, but Apps Script keeps serving the old code
+ *    until a new version is deployed.
  */
 
 function doGet(e) {
@@ -60,14 +63,14 @@ function doPost(e) {
         return handleAddMatch(body);
       case "newSeason":
         return handleNewSeason(body);
+      case "updateSeasonTarget":
+        return handleUpdateSeasonTarget(body);
       case "addPlayer":
         return handleAddPlayer(body);
       case "removePlayer":
         return handleRemovePlayer(body);
       case "renamePlayer":
         return handleRenamePlayer(body);
-      case "updateSeasonTarget":
-        return handleUpdateSeasonTarget(body);
       default:
         return jsonResponse({ ok: false, error: "Unknown action: " + action });
     }

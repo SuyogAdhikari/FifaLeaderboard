@@ -16,11 +16,11 @@ export function isApiConfigured() {
   return Boolean(API_URL) && API_URL.indexOf("PASTE_YOUR") === -1;
 }
 
-// Map each player's name to an image path or URL. Add an entry per player;
-// anyone missing from this list falls back to their initials automatically.
+// Map each player's name to an avatar image. Anyone missing from this list
+// falls back to their initials automatically (see js/render/standingsTable.js).
 export const PLAYER_AVATARS = {
   "B'santa": "images/basanta.PNG",
-  "Nobs": "images/nabin.png",
-  "Jungs": "images/prabin.png",
-  "Forty4Minutes": "images/suyog.png",
+  "Nobs": "images/nabin.PNG",
+  "Jungs": "images/prabin.PNG",
+  "Forty4Minutes": "images/suyog.PNG",
 };

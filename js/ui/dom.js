@@ -1,4 +1,8 @@
-/** Every DOM node the app reads or writes, looked up once and reused. */
+/**
+ * Every DOM node the dashboard reads or writes, looked up once and reused.
+ * (Admin has its own equivalent at js/admin/dom.js — the two pages don't
+ * share a document, so they can't share this cache.)
+ */
 function byId(id) {
   return document.getElementById(id);
 }
@@ -11,21 +15,11 @@ export const els = {
   seasonBadge: byId("seasonBadge"),
   archivedNote: byId("archivedNote"),
   seasonCompleteBanner: byId("seasonCompleteBanner"),
-  startNewSeasonBtn: byId("startNewSeasonBtn"),
 
   lastSync: byId("lastSync"),
   refreshBtn: byId("refreshBtn"),
 
   statGrid: byId("statGrid"),
-  podiumRow: byId("podiumRow"),
-  perfGrid: byId("perfGrid"),
-
-
-  projTargetLabel: byId("projTargetLabel"),
-  projectionList: byId("projectionList"),
-
-  standingsBody: byId("standingsBody"),
-  positionRaceList: byId("positionRaceList"),
 
   recordSection: byId("recordSection"),
   selA: byId("selA"),
@@ -37,22 +31,21 @@ export const els = {
   addMatchBtn: byId("addMatchBtn"),
   savingText: byId("savingText"),
 
+  podiumRow: byId("podiumRow"),
+  standingsBody: byId("standingsBody"),
+
+  outlookToggleBtn: byId("outlookToggleBtn"),
+  outlookBody: byId("outlookBody"),
+  outlookGrid: byId("outlookGrid"),
+
   h2hSelA: byId("h2hSelA"),
   h2hSelB: byId("h2hSelB"),
   h2hSummary: byId("h2hSummary"),
   h2hToggleBtn: byId("h2hToggleBtn"),
   h2hDetail: byId("h2hDetail"),
 
-  managePlayersSub: byId("managePlayersSub"),
-  playersManageWarning: byId("playersManageWarning"),
-  addPlayerRow: byId("addPlayerRow"),
-  playersList: byId("playersList"),
-  newPlayerName: byId("newPlayerName"),
-  addPlayerBtn: byId("addPlayerBtn"),
-  playerError: byId("playerError"),
-
-  logFilterSelect: byId("logFilterSelect"),
-  logList: byId("logList"),
   logToggleBtn: byId("logToggleBtn"),
   logBody: byId("logBody"),
+  logFilterSelect: byId("logFilterSelect"),
+  logList: byId("logList"),
 };

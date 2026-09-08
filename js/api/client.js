@@ -31,5 +31,4 @@ export const addPlayer = (name) => postAction({ action: "addPlayer", name });
 
 export const removePlayer = (name) => postAction({ action: "removePlayer", name });
 
-export const renamePlayer = (oldName, newName) =>
-  postAction({ action: "renamePlayer", oldName, newName });
+export const renamePlayer = (oldName, newName) => postAction({ action: "renamePlayer", oldName, newName });

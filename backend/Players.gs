@@ -1,3 +1,9 @@
+/**
+ * Players.gs — reading, adding, soft-removing, and renaming players. A
+ * "remove" flips Active to FALSE rather than deleting the row, so match
+ * history for that player is never lost.
+ */
+
 /** All players as plain objects. Empty array if the Players tab doesn't exist. */
 function getPlayers() {
   const sheet = getSheet(PLAYER_SHEET);

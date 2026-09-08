@@ -1,3 +1,7 @@
+/**
+ * Sheets.gs — shared sheet-name constants and lookup helper.
+ */
+
 const MATCH_SHEET = "Matches";
 const SEASON_SHEET = "Seasons";
 const PLAYER_SHEET = "Players";
